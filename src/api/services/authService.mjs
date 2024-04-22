@@ -55,4 +55,22 @@ async function registerEnterpriseUser(accountType, userData){
   console.error('Error adding item:', error);
 });
 }
-export {registerCandidate,registerEnterpriseUser};
+
+async function login(email,password){
+  const user = await User.findOne({ where: { email } });
+  if (!user){
+    console.log("user doesn't exist")
+  }
+  else{
+    if (user.password === password){
+      console.log("good password")
+    }
+    else{
+      console.log("wrong password")
+    }
+  }
+  
+}
+
+export {registerCandidate,registerEnterpriseUser,login};
+

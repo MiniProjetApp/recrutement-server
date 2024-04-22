@@ -4,6 +4,7 @@ import express from "express";
 import sequelize from './api/config/sequelize.mjs';
 import cors from "cors";
 import registerRoute from "./api/routes/registerRoute.mjs"
+import loginRoute from "./api/routes/loginRoute.mjs"
 
 
 // import loginroute from "./api/routes/testroute.js"
@@ -18,6 +19,7 @@ var corOptions ={
     origin:'https://localhost:3000'
 }
 app.use(registerRoute)
+app.use(loginRoute)
 app.use(cors(corOptions))
 app.listen(3000,()=>{
     console.log("server started")
