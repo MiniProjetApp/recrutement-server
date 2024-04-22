@@ -8,8 +8,9 @@ import ProfileEntreprise from '../models/entrepriseProfileModel.js';
 import sequelize from '../config/sequelize.mjs';
 
 async function registerCandidate(accountType, userData){
+  let hashedPass = await bcrypt.hash(userData.password,12)
     const newUser = await User.create({
-        password: userData.password,
+        password: hashedPass,
         email :userData.email,
         role: accountType,
         phone_number: userData.phone_number,
@@ -33,8 +34,9 @@ async function registerCandidate(accountType, userData){
 }
 
 async function registerEnterpriseUser(accountType, userData){
+  let hashedPass = await bcrypt.hash(userData.password,12)
   const newUser = await User.create({
-      password: userData.password,
+      password: hashedPass,
       email :userData.email,
       role: accountType,
       phone_number: userData.phone_number,
@@ -62,8 +64,9 @@ async function login(email,password){
     console.log("user doesn't exist")
   }
   else{
-    if (user.password === password){
-      console.log("good password")
+    const match = await bcrypt.compare(password,user.password)
+    if (match){
+      console.log("logged in!")
     }
     else{
       console.log("wrong password")
