@@ -9,8 +9,13 @@ export class PostService{
             console.log(error)
         }
     }
-    static async create(){
-        const post = await Post.create(postData)
-        return post
-    } 
+    static async create(postData) {
+        try {
+          const post = await Post.create(postData);
+          post.save()
+          return post;
+        } catch (error) {
+          throw new Error('Error creating post:', error);
+        }
+      }
 }

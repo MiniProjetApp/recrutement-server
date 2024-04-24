@@ -19,7 +19,7 @@ export class AuthController {
       console.log(req.body);
       const { role, ...userData } = req.body;
       let newUser;
-      console.log("Account type:", role); // Log the role value
+      console.log("Account type:", role); 
       if (role === "candidate") {
         newUser = await AuthService.registerCandidate(role, userData);
       } else if (role === "entreprise") {

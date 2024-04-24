@@ -23,6 +23,10 @@ const CandidateProfile = sequelize.define('CandidateProfile', {
     type: DataTypes.TEXT,
     allowNull: true,
   },
+  is_verified: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false
+  },
   fieldID: {
     type: DataTypes.INTEGER,
     allowNull: true,
