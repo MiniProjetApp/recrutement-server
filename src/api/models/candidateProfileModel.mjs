@@ -1,6 +1,6 @@
 import User from './userModel.mjs'; 
 import Field from './fieldModel.mjs';
-import Subfield from './subFIeldModel.mjs'
+import Subfield from './subFieldModel.mjs'
 
 import { DataTypes } from 'sequelize';
 import sequelize from '../config/sequelize.mjs'; 
