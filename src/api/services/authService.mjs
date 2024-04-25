@@ -26,7 +26,7 @@ export class AuthService {
       "carmaker123", 
       { expiresIn: "1h" } 
     );
-    console.log(user.userid)
+    console.log(user.userID)
     
     return token;
   }
