@@ -1,6 +1,7 @@
 import sequelize from "./api/config/sequelize.mjs";
 import app from "./api/app.mjs";
 
+
 sequelize
   .authenticate()
   .then(() => {
