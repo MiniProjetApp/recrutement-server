@@ -20,13 +20,13 @@ export class AuthService {
     
     const token = jwt.sign(
       {
-        userId: user.id,
+        userId: user.userID,
         role: user.role
       },
       "carmaker123", 
       { expiresIn: "1h" } 
     );
-    
+    console.log(user.userid)
     
     return token;
   }
