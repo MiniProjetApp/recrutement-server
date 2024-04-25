@@ -6,7 +6,6 @@ import Profile from "../models/candidateProfileModel.mjs";
 import ProfileEntreprise from "../models/entrepriseProfileModel.js";
 
 export class AuthService {
-
   static async login(email, password) {
     const user = await User.findOne({ where: { email } });
     if (!user) {
@@ -17,31 +16,29 @@ export class AuthService {
     if (!match) {
       throw new Error("Incorrect password");
     }
-    
+
     const token = jwt.sign(
       {
-        userId: user.id,
-        role: user.role
+        userId: user.ID,
+        role: user.role,
       },
-      "carmaker123", 
-      { expiresIn: "1h" } 
+      "carMaker_123",
+      { expiresIn: "1h" }
     );
-    
-    
+    console.log(user.id);
     return token;
   }
 
   static async registerCandidate(role, userData) {
-    
     try {
-      const email= userData.email
-      const userEmail = await User.findOne({ where: {email} });
-      if (userEmail){
+      const email = userData.email;
+      const userEmail = await User.findOne({ where: { email } });
+      if (userEmail) {
         const conflictError = new Error("Email already exists");
         conflictError.status = 409;
         throw conflictError;
       }
-      console.log(userData.password)
+      console.log(userData.password);
       let hashedPass = await bcrypt.hash(userData.password, 12);
       const newUser = await User.create({
         password: hashedPass,
@@ -68,11 +65,11 @@ export class AuthService {
     }
   }
 
-  static async  registerEnterpriseUser(role, userData) {
+  static async registerEnterpriseUser(role, userData) {
     try {
-      const email= userData.email
-      const userEmail = await User.findOne({ where: {email} });
-      if (userEmail){
+      const email = userData.email;
+      const userEmail = await User.findOne({ where: { email } });
+      if (userEmail) {
         const conflictError = new Error("Email already exists");
         conflictError.status = 409;
         throw conflictError;
