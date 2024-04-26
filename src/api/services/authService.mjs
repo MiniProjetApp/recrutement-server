@@ -6,7 +6,6 @@ import Profile from "../models/candidateProfileModel.mjs";
 import ProfileEntreprise from "../models/entrepriseProfileModel.js";
 
 export class AuthService {
-
   static async login(email, password) {
     const user = await User.findOne({ where: { email } });
     if (!user) {
@@ -17,31 +16,31 @@ export class AuthService {
     if (!match) {
       throw new Error("Incorrect password");
     }
-    
+
     const token = jwt.sign(
       {
         userId: user.userID,
-        role: user.role
+        role: user.role,
       },
-      "carmaker123", 
-      { expiresIn: "1h" } 
+      "carmaker123",
+      { expiresIn: "1h" }
     );
-    console.log(user.userID)
-    
+
+    console.log(user.userID);
+
     return token;
   }
 
   static async registerCandidate(role, userData) {
-    
     try {
-      const email= userData.email
-      const userEmail = await User.findOne({ where: {email} });
-      if (userEmail){
+      const email = userData.email;
+      const userEmail = await User.findOne({ where: { email } });
+      if (userEmail) {
         const conflictError = new Error("Email already exists");
         conflictError.status = 409;
         throw conflictError;
       }
-      console.log(userData.password)
+      console.log(userData.password);
       let hashedPass = await bcrypt.hash(userData.password, 12);
       const newUser = await User.create({
         password: hashedPass,
@@ -57,7 +56,7 @@ export class AuthService {
         last_name: userData.last_name,
         wilaya: userData.wilaya,
         gender: userData.gender,
-        birth_date: new Date(),
+        birth_date: userData.birth_date,
       });
 
       await newProfile.save();
@@ -68,11 +67,11 @@ export class AuthService {
     }
   }
 
-  static async  registerEnterpriseUser(role, userData) {
+  static async registerEnterpriseUser(role, userData) {
     try {
-      const email= userData.email
-      const userEmail = await User.findOne({ where: {email} });
-      if (userEmail){
+      const email = userData.email;
+      const userEmail = await User.findOne({ where: { email } });
+      if (userEmail) {
         const conflictError = new Error("Email already exists");
         conflictError.status = 409;
         throw conflictError;

@@ -17,7 +17,7 @@ const Education = sequelize.define('Education', {
     allowNull: false,
   },
   level: {
-    type: DataTypes.STRING(50),
+    type: DataTypes.INTEGER,
     allowNull: false,
   },
   diploma_type: {

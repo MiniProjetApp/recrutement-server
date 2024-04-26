@@ -57,6 +57,18 @@ export class advancedInfoController{
         }
     }
 
+    static async getHighestEducation(req, res) {
+        const { userID, fieldID } = req.query;
+      
+        try {
+          const highestEducation = await EducationService.getHighestEducation(userID, fieldID);
+          res.json(highestEducation);
+        } catch (error) {
+          console.error("Error while fetching highest education:", error);
+          res.status(500).json({ error: "Internal server error" });
+        }
+      }
+
     static async createExperience(req, res) {
         try {
             const pastExperience = await advancedInfoService.createPastExperience(req.body);
@@ -86,4 +98,30 @@ export class advancedInfoController{
             res.status(400).json({ message: error.message });
         }
     }
+
+    static async updateLanguages(req, res) {
+        const  userID  = req.params['userid'];
+        const languageIDs  = req.body.languages;
+        console.log(languageIDs)
+        try {
+          const result = await advancedInfoService.updateLanguages(userID, languageIDs);
+          res.status(200).json({ message: "Languages updated successfully" });
+        } catch (error) {
+          console.error("Error updating languages:", error);
+          res.status(500).json({ error: "Internal server error" });
+        }
+      }
+    
+      static async updateAdvancedCriteria(req, res) {
+        const  userID  = req.params['userid'];
+        const { criteriaIDs } = req.body;
+    
+        try {
+          const result = await advancedInfoService.updateAdvancedCriteria(userID, criteriaIDs);
+          res.status(200).json({ message: "Advanced criteria updated successfully" });
+        } catch (error) {
+          console.error("Error updating advanced criteria:", error);
+          res.status(500).json({ error: "Internal server error" });
+        }
+      }
 }

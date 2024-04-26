@@ -61,7 +61,7 @@ const Post = sequelize.define('Post', {
     allowNull: true,
   },
   study_level: {
-    type: DataTypes.STRING(100),
+    type: DataTypes.INTEGER,
     allowNull: true,
   },
 }, {
@@ -75,6 +75,7 @@ const Post = sequelize.define('Post', {
 Post.belongsTo(User, { foreignKey: 'userID' });
 Post.belongsTo(Field, { foreignKey: 'fieldID' });
 Post.belongsTo(Subfield, { foreignKey: 'subfieldID' });
+
 
 (async () => {
   try {
