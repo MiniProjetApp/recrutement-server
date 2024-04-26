@@ -1,6 +1,10 @@
 import formation from "../models/formationModel.mjs"
 import education from "../models/educationModel.mjs"
 import experience from "../models/pastExperiencesModel.mjs"
+import UserLanguages from "../models/userLanguages.mjs"
+import UserAdvancedCriterias from "../models/userAdvancedCriteriasModel.mjs"
+import AdvancedCriteria from "../models/advancedCriteriasModel.mjs"
+import PostLanguages from "../models/postLanguagesModel.mjs"
 
 export class advancedInfoService{
 
@@ -88,6 +92,23 @@ export class advancedInfoService{
         }
     }
 
+    static async getHighestEducation(userID, fieldID) {
+        try {
+          const highestEducation = await education.findOne({
+            where: {
+              userID,
+              fieldID
+            },
+            order: [['level', 'DESC']], 
+            limit: 1
+          });
+          
+          return highestEducation;
+        } catch (error) {
+          throw error;
+        }
+      }
+
     static async createExperience(postData) {
         try {
             const newPastExperience = await experience.create(postData);
@@ -127,4 +148,112 @@ export class advancedInfoService{
             throw error;
         }
     }
+    static async getSumOfExperience(userID, fieldID) {
+        try {
+          const sumOfTimeSpent = await experience.sum('time_spent', {
+            where: {
+              userID,
+              fieldID
+            }
+          });
+          
+          return sumOfTimeSpent;
+        } catch (error) {
+          throw error;
+        }
+      }
+
+      static async updateLanguages(userID, languages) {
+        try {
+          // Remove old languages associated with the user
+          await UserLanguages.destroy({
+            where: {
+              userID: userID,
+            },
+          });
+    
+          // Add updated languages
+          const promises = languages.map(async (language) => {
+            await UserLanguages.create({
+              userID: userID,
+              languageID: language.languageID,
+              level: language.level,
+            });
+          });
+    
+          await Promise.all(promises);
+          console.log("Languages updated successfully");
+          return true;
+        } catch (error) {
+          console.error("Error updating languages:", error);
+          throw error;
+        }
+      }
+    
+      static async updateAdvancedCriteria(userID, criteriaIDs) {
+        try {
+        console.log(userID)
+
+          // Remove old advanced criteria associated with the user
+          await UserAdvancedCriterias.destroy({
+            where: {
+              userID: userID,
+            },
+          });
+    
+          // Add updated advanced criteria
+          const promises = criteriaIDs.map(async (criteriaID) => {
+            await UserAdvancedCriterias.create({
+              userID: userID,
+              criteriaID: criteriaID,
+            });
+          });
+    
+          await Promise.all(promises);
+          console.log("Advanced criteria updated successfully");
+          return true;
+        } catch (error) {
+          console.error("Error updating advanced criteria:", error);
+          throw error;
+        }
+      }
+
+      static async addPostLanguages(postID, languageData) {
+        try {
+         
+          const promises = languageData.map(async (data) => {
+            await PostLanguages.create({
+              postID: postID,
+              languageID: data.languageID,
+              level: data.level,
+            });
+          });
+    
+          await Promise.all(promises);
+          console.log("Post languages updated successfully");
+          return true;
+        } catch (error) {
+          console.error("Error updating post languages:", error);
+          throw error;
+        }
+      }
+    
+      static async addAdvancedCriteria(postID, criteriaIDs) {
+        try {
+          // Add updated advanced criteria
+          const promises = criteriaIDs.map(async (criteriaID) => {
+            await AdvancedCriteria.create({
+              postID: postID,
+              criteriaID: criteriaID,
+            });
+          });
+    
+          await Promise.all(promises);
+          console.log("Advanced criteria updated successfully");
+          return true;
+        } catch (error) {
+          console.error("Error updating advanced criteria:", error);
+          throw error;
+        }
+      }
 }

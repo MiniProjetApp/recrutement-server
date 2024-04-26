@@ -35,7 +35,7 @@ CandidatureList.belongsTo(Post, { foreignKey: 'postID' });
 (async () => {
     try {
       await CandidatureList.sync({ force: false });
-      console.log('User model synced with database');
+      console.log('CandidatureList model synced with database');
     } catch (error) {
       console.error('Error syncing User model:', error);
     }

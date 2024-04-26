@@ -1,6 +1,7 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../config/sequelize.mjs';
 import Languages from './languagesModel.mjs';
+import Post from "./postModel.mjs"
 
 const PostLanguages = sequelize.define('PostLanguages', {
   post_languagesID: {
@@ -17,22 +18,25 @@ const PostLanguages = sequelize.define('PostLanguages', {
     type: DataTypes.ENUM('basic', 'intermediate', 'advanced'),
     allowNull: true,
   },
+  postID: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  }
 }, {
   tableName: 'post_languages',
   timestamps: false,
   charset: 'utf8mb4',
   collate: 'utf8mb4_0900_ai_ci',
 });
-
-PostLanguages.belongsTo(Languages, { foreignKey: 'languageID' });
-
 (async () => {
   try {
     await PostLanguages.sync({ force: false });
-    console.log('User model synced with database');
+    console.log('PostLanguages model synced with database');
   } catch (error) {
     console.error('Error syncing User model:', error);
   }
 })();
 
+PostLanguages.belongsTo(Languages, { foreignKey: 'languageID' });
+PostLanguages.belongsTo(Post, { foreignKey: 'postID' });
 export default PostLanguages;

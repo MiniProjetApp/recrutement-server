@@ -5,7 +5,7 @@ import{AuthMiddleware} from "../middleware/authorizationMiddleware.mjs"
 const router = express.Router();
 
 router.post("/post/create",PostController.create);
-router.get("/post/all", AuthMiddleware.auth, AuthMiddleware.isEntreprise, PostController.findAll);
-
+router.get("/post/all", PostController.findAll);
+router.get("/post/:id",PostController.getPostInfo)
 
 export default router;

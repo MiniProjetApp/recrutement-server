@@ -35,7 +35,7 @@ UserLanguages.belongsTo(Languages, { foreignKey: 'languageID' });
 (async () => {
     try {
       await UserLanguages.sync({ force: false });
-      console.log('User model synced with database');
+      console.log('UserLanguages model synced with database');
     } catch (error) {
       console.error('Error syncing User model:', error);
     }

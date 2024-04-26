@@ -94,4 +94,56 @@ export class userService {
       throw error;
     }
   }
+
+  static async updateCandidateProfile(userTargetID, newData) {
+    try {
+      const candidateProfileData = await candidateProfile.findByPk(
+        userTargetID
+      );
+      if (!candidateProfileData) {
+        const notFoundError = new Error("Candidate profile doesn't exist");
+        notFoundError.status = 404;
+        throw notFoundError;
+      }
+
+      await candidateProfile.update(newData, {
+        where: { id: userTargetID },
+      });
+
+      // Fetch and return the updated candidate profile
+      const updatedCandidateProfile = await candidateProfile.findByPk(
+        userTargetID
+      );
+      return updatedCandidateProfile.dataValues;
+    } catch (error) {
+      console.error("Error updating candidate profile:", error);
+      throw error;
+    }
+  }
+
+  static async updateEnterpriseProfile(userTargetID, newData) {
+    try {
+      const enterpriseProfileData = await EnterpriseProfile.findByPk(
+        userTargetID
+      );
+      if (!enterpriseProfileData) {
+        const notFoundError = new Error("Enterprise profile doesn't exist");
+        notFoundError.status = 404;
+        throw notFoundError;
+      }
+
+      await EnterpriseProfile.update(newData, {
+        where: { id: userTargetID },
+      });
+
+      // Fetch and return the updated enterprise profile
+      const updatedEnterpriseProfile = await EnterpriseProfile.findByPk(
+        userTargetID
+      );
+      return updatedEnterpriseProfile.dataValues;
+    } catch (error) {
+      console.error("Error updating enterprise profile:", error);
+      throw error;
+    }
+  }
 }

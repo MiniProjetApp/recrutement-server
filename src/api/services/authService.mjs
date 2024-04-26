@@ -56,7 +56,7 @@ export class AuthService {
         last_name: userData.last_name,
         wilaya: userData.wilaya,
         gender: userData.gender,
-        birth_date: new Date(),
+        birth_date: userData.birth_date,
       });
 
       await newProfile.save();

@@ -22,7 +22,7 @@ const Field = sequelize.define('Field', {
   (async () => {
     try {
       await Field.sync({ force: false });
-      console.log('User model synced with database');
+      console.log('Field model synced with database');
     } catch (error) {
       console.error('Error syncing User model:', error);
     }

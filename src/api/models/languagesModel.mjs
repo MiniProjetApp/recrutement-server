@@ -1,5 +1,5 @@
 import { DataTypes } from 'sequelize';
-import sequelize from '../config/sequelize.mjs'; 
+import sequelize from '../config/sequelize.mjs';
 
 const Language = sequelize.define('Language', {
   languageID: {
@@ -19,13 +19,17 @@ const Language = sequelize.define('Language', {
   collate: 'utf8mb4_0900_ai_ci',
 });
 
+
 (async () => {
     try {
       await Language.sync({ force: false });
-      console.log('User model synced with database');
+      console.log('Language model synced with database');
     } catch (error) {
       console.error('Error syncing User model:', error);
     }
   })();
+
+
+
 
 export default Language;

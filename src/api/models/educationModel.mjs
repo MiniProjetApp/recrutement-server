@@ -17,7 +17,7 @@ const Education = sequelize.define('Education', {
     allowNull: false,
   },
   level: {
-    type: DataTypes.STRING(50),
+    type: DataTypes.INTEGER,
     allowNull: false,
   },
   diploma_type: {
@@ -46,7 +46,7 @@ Education.belongsTo(Field, { foreignKey: 'fieldID' });
 (async () => {
     try {
       await Education.sync({ force: false });
-      console.log('User model synced with database');
+      console.log('Education model synced with database');
     } catch (error) {
       console.error('Error syncing User model:', error);
     }

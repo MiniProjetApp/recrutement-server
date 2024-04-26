@@ -49,7 +49,7 @@ PastExperience.belongsTo(Subfield, { foreignKey: 'subfieldID' });
 (async () => {
     try {
       await PastExperience.sync({ force: false });
-      console.log('User model synced with database');
+      console.log('PastExperience model synced with database');
     } catch (error) {
       console.error('Error syncing User model:', error);
     }

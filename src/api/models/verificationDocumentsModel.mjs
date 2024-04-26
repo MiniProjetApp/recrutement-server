@@ -29,7 +29,7 @@ VerificationDocument.belongsTo(User, { foreignKey: 'userID' });
 (async () => {
     try {
       await VerificationDocument.sync({ force: false });
-      console.log('User model synced with database');
+      console.log('VerificationDocument model synced with database');
     } catch (error) {
       console.error('Error syncing User model:', error);
     }

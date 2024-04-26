@@ -30,5 +30,10 @@ router.delete("/advancedInfo/experience/delete/:experienceID", advancedInfoContr
 // // create a new experience
 router.post("/advancedInfo/experience/create", advancedInfoController.createExperience);
 
+// Modify languages in a user profile
+router.put("/advancedInfo/languages/:userid", advancedInfoController.updateLanguages);
+
+// Modify advanced criteria in a user profile
+router.put("/advancedInfo/criteria/:userid", advancedInfoController.updateAdvancedCriteria);
 export default router;
 
