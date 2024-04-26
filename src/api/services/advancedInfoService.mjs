@@ -256,4 +256,32 @@ export class advancedInfoService{
           throw error;
         }
       }
+
+      static async getLanguagesByUserID(userID) {
+        try {
+            const userLanguages = await UserLanguages.findAll({
+                where: {
+                    userID: userID
+                }
+            });
+            return userLanguages;
+        } catch (error) {
+            console.error('Error fetching user languages:', error);
+            throw error;
+        }
+    }
+
+    static async getCriteriasByUserID(userID) {
+      try {
+          const userCriterias = await UserAdvancedCriterias.findAll({
+              where: {
+                  userID: userID
+              }
+          });
+          return userCriterias;
+      } catch (error) {
+          console.error('Error fetching user criterias:', error);
+          throw error;
+      }
+  }
 }

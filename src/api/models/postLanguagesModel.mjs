@@ -36,7 +36,6 @@ const PostLanguages = sequelize.define('PostLanguages', {
     console.error('Error syncing User model:', error);
   }
 })();
-
 PostLanguages.belongsTo(Languages, { foreignKey: 'languageID' });
-PostLanguages.belongsTo(Post, { foreignKey: 'postID' });
+
 export default PostLanguages;

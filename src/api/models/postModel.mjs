@@ -1,9 +1,9 @@
+import { DataTypes } from 'sequelize';
+import sequelize from '../config/sequelize.mjs';
 import User from './userModel.mjs'; 
 import Field from './fieldModel.mjs'; 
 import Subfield from './subFieldModel.mjs'; 
-
-import { DataTypes } from 'sequelize';
-import sequelize from '../config/sequelize.mjs';
+import PostLanguages from './postLanguagesModel.mjs';
 
 const Post = sequelize.define('Post', {
   postID: {
@@ -85,5 +85,5 @@ Post.belongsTo(Subfield, { foreignKey: 'subfieldID' });
     console.error('Error syncing User model:', error);
   }
 })();
-
+Post.hasMany(PostLanguages, { foreignKey: 'postID', as: 'postLanguages' });
 export default Post;

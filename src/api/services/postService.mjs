@@ -5,19 +5,45 @@ import { advancedInfoService } from "./advancedInfoService.mjs"
 
 export class PostService{
     static async findAll(){
-        try{
-          console.log("got here")
-
-          const posts = await Post.findAll({
-            include: [
-                { model: PostLanguages, as: 'languages' },
-                { model: AdvancedCriteria, as: 'criterias' }
-            ]
-        });
-        return posts}
-        catch(error){
-            console.log(error)
-        }
+      try {
+        const posts = await Post.findAll();
+        
+        const postsWithData = await Promise.all(posts.map(async (post) => {
+          const postLanguages = await PostLanguages.findAll({
+            where: {
+              postID: post.postID,
+            },
+          });
+          const languages = postLanguages.map(language => ({
+            languageID: language.languageID,
+            level: language.level
+          }));
+    
+          const postCriterias = await AdvancedCriteria.findAll({
+            where: {
+              postID: post.postID,
+            },
+          });
+          const criterias = postCriterias.map(criteria => criteria.criteriaID);
+          let finalobject = {...post.toJSON(),
+          languages: languages,
+          criterias: criterias
+          }
+          if (criterias.length===0){
+            delete finalobject['criterias']
+          }
+          if (languages.length===0){
+            delete finalobject['languages']
+          }
+          // Construct the data object for the post
+          return (finalobject);
+        }));
+    
+        console.log(postsWithData);
+        return(postsWithData) // This will log all posts along with their associated languages and criteria
+      } catch (error) {
+        console.error('Error fetching posts:', error);
+      }
     }
     static async create(postData,languages,criterias) {
         try {
@@ -63,13 +89,18 @@ export class PostService{
           console.log(criterias)
           console.log(languages)
           // Assigning extracted data to post object
-          const postData = {
-            ...post.toJSON(), // Convert post instance to plain object
+          let finalobject = {...post.toJSON(),
             languages: languages,
             criterias: criterias
-        };
-
-          return postData;
+            }
+            if (criterias.length===0){
+              delete finalobject['criterias']
+            }
+            if (languages.length===0){
+              delete finalobject['languages']
+            }
+            // Construct the data object for the post
+            return (finalobject);
           }
       }catch(error){
         throw error;

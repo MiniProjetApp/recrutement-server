@@ -9,12 +9,12 @@ export class candidatureService{
     static async new(data){
         let score = 0;
         const post = await PostService.getPostInfo(data.postID)
-        const postInfo = post.dataValues
-        const postField = postInfo.fieldID
+        const postInfo = post
+        console.log(postInfo)
         const userInfo = await userService.getCandidateInfo(data.userID)
         
         if (postInfo.study_level){
-            const userHighestEducation = await advancedInfoService.getHighestEducation(data.userID,postField)
+            const userHighestEducation = await advancedInfoService.getHighestEducation(data.userID,postInfo.fieldID)
             console.log(userHighestEducation)
             if (userHighestEducation==null){
                 console.log("user has no education in the field")
@@ -28,7 +28,7 @@ export class candidatureService{
             } 
         }
         if (postInfo.experience_required){
-            const userSumExperienceTime = await advancedInfoService.getSumOfExperience(data.userID,postField)
+            const userSumExperienceTime = await advancedInfoService.getSumOfExperience(data.userID,postInfo.fieldID)
             console.log(userSumExperienceTime)
             if (userSumExperienceTime==null){
                 console.log("user has no experience")
@@ -44,6 +44,8 @@ export class candidatureService{
             if (userInfo.wilaya == postInfo.wilaya){
                 console.log("same wilaya!!!")
                 score++
+            }else{
+                console.log("not smae wilaya :(((")
             }
         }
 
@@ -82,7 +84,37 @@ export class candidatureService{
         }
         }
 
-        if (postInfo.fieldID && userInfo.fieldID){
-            score++
+        if(postInfo.languages){
+            console.log("has languages!!!!")
+            const gottenUserLanguages = await advancedInfoService.getLanguagesByUserID(userInfo.userID)
+            const userLanguagesIDs = gottenUserLanguages.map(userLanguage => userLanguage.dataValues.user_languagesID);
+            console.log(userLanguagesIDs)
+            const postLanguageIDs = postInfo.languages.map(userLanguage => userLanguage.languageID);
+            console.log(postLanguageIDs)
+            postLanguageIDs.forEach(postLanguageID => {
+                if (userLanguagesIDs.includes(postLanguageID)) {
+                    console.log("OMG FOUND MATCHING LANGUAGE WOHOOOOOO")
+                    score++;
+                }else{
+                    console.log("found nothing :(((")
+                }
+            });
         }
+
+
+        if(postInfo.criterias){
+            console.log(postInfo.criterias)
+            const gottenUserCriterias = await advancedInfoService.getCriteriasByUserID(userInfo.userID)
+            const userCriteriasID = gottenUserCriterias.map(userCriteria => userCriteria.dataValues.criteriaID)
+            console.log(userCriteriasID)
+            postInfo.criterias.forEach(criteriaID=>{
+                if(userCriteriasID.includes(criteriaID)){
+                    console.log("OMG FOUND MATCHING CRITERIA WOHOOOOOO")
+                    score++;
+                }else{
+                    console.log("found nothing ;((((")
+                }
+            })
+        }
+        console.log(score)
 }}
