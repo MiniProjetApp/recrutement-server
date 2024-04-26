@@ -22,7 +22,7 @@ export class AuthService {
         userId: user.userID,
         role: user.role,
       },
-      "carmaker123",
+      "carMaker_123",
       { expiresIn: "1h" }
     );
 
