@@ -48,7 +48,7 @@ EnterpriseProfile.belongsTo(Field, { foreignKey: 'fieldID' });
 (async () => {
     try {
       await EnterpriseProfile.sync({ force: false });
-      console.log('entreprise profile model synced with database');
+      console.log('EnterpriseProfile model synced with database');
     } catch (error) {
       console.error('Error syncing User model:', error);
     }

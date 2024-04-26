@@ -30,7 +30,7 @@ const SubscriptionInfo = sequelize.define('SubscriptionInfo', {
 (async () => {
     try {
       await SubscriptionInfo.sync({ force: false });
-      console.log('User model synced with database');
+      console.log('SubscriptionInfo model synced with database');
     } catch (error) {
       console.error('Error syncing User model:', error);
     }

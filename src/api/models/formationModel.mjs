@@ -40,7 +40,7 @@ Formation.belongsTo(User, { foreignKey: 'userID' });
 (async () => {
     try {
       await Formation.sync({ force: false });
-      console.log('User model synced with database');
+      console.log('Formation model synced with database');
     } catch (error) {
       console.error('Error syncing User model:', error);
     }

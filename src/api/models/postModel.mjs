@@ -24,6 +24,10 @@ const Post = sequelize.define('Post', {
     type: DataTypes.TEXT,
     allowNull: true,
   },
+  wilaya:{
+    type: DataTypes.INTEGER,
+    allowNull: true,
+  },
   location: {
     type: DataTypes.STRING(255),
     allowNull: true,
@@ -75,7 +79,7 @@ Post.belongsTo(Subfield, { foreignKey: 'subfieldID' });
 (async () => {
   try {
     await Post.sync({ force: false });
-    console.log('User model synced with database');
+    console.log('Post model synced with database');
   } catch (error) {
     console.error('Error syncing User model:', error);
   }

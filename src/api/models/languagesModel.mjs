@@ -22,7 +22,7 @@ const Language = sequelize.define('Language', {
 (async () => {
     try {
       await Language.sync({ force: false });
-      console.log('User model synced with database');
+      console.log('Language model synced with database');
     } catch (error) {
       console.error('Error syncing User model:', error);
     }

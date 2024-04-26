@@ -22,7 +22,7 @@ const Criteria = sequelize.define('Criteria', {
 (async () => {
     try {
       await Criteria.sync({ force: false });
-      console.log('User model synced with database');
+      console.log('Criteria model synced with database');
     } catch (error) {
       console.error('Error syncing User model:', error);
     }

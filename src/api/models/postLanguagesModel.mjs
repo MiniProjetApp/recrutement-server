@@ -29,7 +29,7 @@ PostLanguages.belongsTo(Languages, { foreignKey: 'languageID' });
 (async () => {
   try {
     await PostLanguages.sync({ force: false });
-    console.log('User model synced with database');
+    console.log('PostLanguages model synced with database');
   } catch (error) {
     console.error('Error syncing User model:', error);
   }

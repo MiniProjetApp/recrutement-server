@@ -81,7 +81,7 @@ CandidateProfile.belongsTo(Subfield, { foreignKey: 'subfieldID' });
 (async () => {
     try {
       await CandidateProfile.sync({ force: false });
-      console.log('User model synced with database');
+      console.log('CandidateProfile model synced with database');
     } catch (error) {
       console.error('Error syncing User model:', error);
     }
