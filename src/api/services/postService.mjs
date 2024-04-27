@@ -2,6 +2,7 @@ import Post from "../models/postModel.mjs"
 import PostLanguages from "../models/postLanguagesModel.mjs"
 import AdvancedCriteria from "../models/advancedCriteriasModel.mjs"
 import { advancedInfoService } from "./advancedInfoService.mjs"
+import { Op, where } from "sequelize";
 
 export class PostService{
     static async findAll(){
@@ -105,5 +106,66 @@ export class PostService{
       }catch(error){
         throw error;
       }
+      }
+    static async searchPosts(params) {
+      try {
+        console.log("params")
+         const whereClause = {};
+      
+        if (params && typeof params === "object") {
+          if (params.title) {
+            whereClause.title = { [Op.like]: `%${params.title}%` };
+          }
+          if (params.fieldID) {
+            whereClause.fieldID = params.fieldID;
+          }
+          if (params.wilaya) {
+            whereClause.wilaya = { [Op.like]: `%${params.wilaya}%` };            }
+          }
+      
+          console.log("where clause: ");
+          console.log(whereClause);
+      
+          const posts = await Post.findAll({
+            where: whereClause,
+          });
+
+          const postsWithData = await Promise.all(posts.map(async (post) => {
+            const postLanguages = await PostLanguages.findAll({
+              where: {
+                postID: post.postID,
+              },
+            });
+            const languages = postLanguages.map(language => ({
+              languageID: language.languageID,
+              level: language.level
+            }));
+      
+            const postCriterias = await AdvancedCriteria.findAll({
+              where: {
+                postID: post.postID,
+              },
+            });
+            const criterias = postCriterias.map(criteria => criteria.criteriaID);
+            let finalobject = {...post.toJSON(),
+              languages: languages,
+              criterias: criterias
+            }
+            if (criterias.length===0){
+              delete finalobject['criterias']
+            }
+            if (languages.length===0){
+              delete finalobject['languages']
+            }
+            // Construct the data object for the post
+            console.log(finalobject)
+            return (finalobject);
+          }));
+      
+          return postsWithData;
+        } catch (error) {
+          console.error("Error searching posts:", error);
+          throw error;
+        }
       }
 }
