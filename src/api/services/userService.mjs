@@ -107,7 +107,7 @@ export class userService {
       }
 
       await candidateProfile.update(newData, {
-        where: { id: userTargetID },
+        where: { userID: userTargetID },
       });
 
       // Fetch and return the updated candidate profile

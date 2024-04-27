@@ -4,9 +4,20 @@ import experience from "../models/pastExperiencesModel.mjs"
 import { advancedInfoService } from "./advancedInfoService.mjs"
 import { PostService } from "./postService.mjs"
 import {userService} from "./userService.mjs"
+import candidature from "../models/candidatureListModel.mjs"
 
 export class candidatureService{
     static async new(data){
+
+        const existing_candidature = await candidature.findOne({ where: { userID: data.userID,
+        postID:data.postID } });
+        if (existing_candidature){
+            console.log("candidature already exists")
+            const conflictError = new Error("candidature already exists");
+            conflictError.status = 409;
+            throw conflictError;
+        }
+
         let score = 0;
         const post = await PostService.getPostInfo(data.postID)
         const postInfo = post
@@ -116,5 +127,13 @@ export class candidatureService{
                 }
             })
         }
+
+        const final_candidatre = await candidature.create({
+            userID:userInfo.userID,
+            postID: postInfo.postID,
+            score:score
+        })
+        await final_candidatre.save()
         console.log(score)
+        return true
 }}

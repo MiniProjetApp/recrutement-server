@@ -1,11 +1,28 @@
 import {userService} from "../services/userService.mjs"
+import { advancedInfoService } from "../services/advancedInfoService.mjs"
+import Candidate from "../models/candidateProfileModel.mjs"
 
 export class userController{
     static async getCandidateInfo(req,res){
         try{
-            const userData = await userService.getCandidateInfo(req.params['id'])
-            res.status(200).json(userData)
+            const userData = await userService.getCandidateInfo(req.params['id']);
+            const userEducation = await advancedInfoService.getAllEducation(req.params['id']);
+            const userExperiences = await advancedInfoService.getAllExperiences(req.params['id']);
+            const userFormations = await advancedInfoService.getAllFormations(req.params['id']);
+            const userLanguages = await advancedInfoService.getLanguagesByUserID(req.params['id']);
+            const userCriteria = await advancedInfoService.getCriteriasByUserID(req.params['id'])
+            let finalobject = {userData:userData,
+              languages: userLanguages,
+              experience : userExperiences,
+              formations : userFormations,
+              education: userEducation,
+              criteria: userCriteria
+            }
+
+            console.log(userLanguages)
+            res.status(200).json(finalobject)
             console.log(userData)
+
         }
         catch(error){
             if (error.status){
