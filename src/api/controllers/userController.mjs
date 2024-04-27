@@ -1,6 +1,11 @@
 import {userService} from "../services/userService.mjs"
 import { advancedInfoService } from "../services/advancedInfoService.mjs"
-import Candidate from "../models/candidateProfileModel.mjs"
+import multer from "multer"
+import path from "path"
+
+import CandidateProfile from "../models/candidateProfileModel.mjs"
+import EnterpriseProfile from "../models/entrepriseProfileModel.js"
+
 
 export class userController{
     static async getCandidateInfo(req,res){
@@ -108,4 +113,47 @@ export class userController{
         }
       }
     
+
+      static async uploadProfilePicture(req, res) {
+        let final_name;
+        const upload = multer({
+          storage: multer.diskStorage({
+            destination: function (req, file, cb) {
+              cb(null, 'uploads/profile_pictures');
+            },
+            filename: function (req, file, cb) {
+              const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+              final_name = 'uploads/profile_pictures/' + uniqueSuffix + path.extname(file.originalname);
+              cb(null, uniqueSuffix + path.extname(file.originalname));
+            }
+          })
+        }).single('picture'); 
+        upload(req, res, async function (err) {
+          if (err instanceof multer.MulterError) {
+            console.log
+            res.status(500).json({ error: 'Multer error occurred.' });
+          } else if (err) {
+            res.status(500).json({ error: 'An unknown error occurred.' });
+          } else {
+            try {
+              const userID = req.body.userID;
+              console.log(userID)
+              const userType = req.body.userType;
+              console.log(userType)
+    
+              if (userType === 'candidate') {
+                await CandidateProfile.update({ picture: final_name }, { where: { userID } });
+              } else if (userType === 'enterprise') {
+                await EnterpriseProfile.update({ logo: final_name }, { where: { userID } });
+              } else {
+                return res.status(400).json({ error: 'Invalid user type.' });
+              }
+              res.status(200).json({ message: 'Profile picture/logo uploaded successfully.' });
+            } catch (error) {
+              console.error(error);
+              res.status(500).json({ error: 'Failed to upload profile picture/logo.' });
+            }
+          }
+        });
+      }
 }

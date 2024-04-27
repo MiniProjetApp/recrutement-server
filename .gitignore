@@ -1,3 +1,4 @@
 node_modules
 src\api\config\dbConfig.mjs
 uploads\documents\*
+uploads/profile_pictures

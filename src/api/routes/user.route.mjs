@@ -12,5 +12,6 @@ router.get("/entreprise/search", userController.searchEntreprise);
 router.put("/candidate/update/:id", userController.updateCandidateProfile);
 router.put("/entreprise/update/:id", userController.updateEnterpriseProfile);
 
+router.post("/picture/add",userController.uploadProfilePicture)
 
 export default router;
