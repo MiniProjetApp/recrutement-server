@@ -156,4 +156,29 @@ export class userController{
           }
         });
       }
+
+      static async get_own_profile(req, res) {
+        try {
+            const { role } = req.user; 
+            let userData;
+            console.log(role)
+
+            if (role === 'candidate') {
+                userData = await userService.getCandidateInfo(req.user.userId);
+            } else if (role === 'enterprise') {
+                userData = await userService.getEntrepriseInfo(req.user.userId);
+            } else {
+                return res.status(400).json({ error: 'Invalid account type.' });
+            }
+
+            res.status(200).json(userData);
+            console.log(userData);
+        } catch (error) {
+            if (error.status) {
+                res.status(error.status).json({ message: error.message });
+            } else {
+                res.status(400).json({ message: error.message });
+            }
+        }
+    }
 }

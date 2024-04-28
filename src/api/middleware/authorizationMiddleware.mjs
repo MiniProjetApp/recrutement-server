@@ -15,6 +15,7 @@ export class AuthMiddleware {
       const decoded = jwt.verify(tokenWithoutBearer, "carmaker123");
 
       req.user = decoded;
+      console.log(decoded)
       next();
     } catch (error) {
       res.status(401).json({ msg: "Token is not valid" });
