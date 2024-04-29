@@ -24,7 +24,7 @@ const CandidateProfile = sequelize.define('CandidateProfile', {
     allowNull: true,
   },
   is_verified: {
-    type: DataTypes.BOOLEAN,
+    type: DataTypes.ENUM('true','false','pending'),
     defaultValue: false
   },
   fieldID: {

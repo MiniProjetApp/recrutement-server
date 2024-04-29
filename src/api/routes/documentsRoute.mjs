@@ -4,6 +4,6 @@ import express from "express"
 const router = express.Router();
 
 router.post("/documents/new",DocumentsController.newDocuments)
-// router.get("/documents/:userid",DocumentsController.getDocuments)
+router.get("/documents/:userid",DocumentsController.getUserDocuments)
 
 export default router

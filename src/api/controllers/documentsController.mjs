@@ -1,6 +1,8 @@
 import documentModel from "../models/verificationDocumentsModel.mjs"
 import multer from "multer"
 import path from "path"
+import { fileURLToPath } from 'url';
+
 
 export class DocumentsController{
     static async newDocuments(req, res) {
@@ -39,4 +41,28 @@ export class DocumentsController{
           }
         });
       }
+
+      static async getUserDocuments(req, res) {
+        const userID = req.params['userid']; 
+        if (!userID) {
+          return res.status(400).json({ error: 'UserID is required.' });
+        }
+        try {
+          const __filename = fileURLToPath(import.meta.url)
+          const projectDir = path.dirname(__filename)
+          console.log(projectDir);
+          const documents = await  documentModel.findAll({
+            where: { userID: userID },
+            attributes: ['resource_link']
+          });
+          const documentPaths = documents.map(doc => (projectDir+doc.resource_link));
+          const sanitizedPaths = documentPaths.map(path => path.replace(/\\/g, '/'));
+      
+          res.status(200).json({ documents: sanitizedPaths });
+        } catch (error) {
+          console.error("Error retrieving documents:", error);
+          res.status(500).json({ error: 'An error occurred while retrieving documents.' });
+        }
+      }
+      
 }
