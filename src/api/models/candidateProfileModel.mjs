@@ -1,6 +1,5 @@
 import User from './userModel.mjs'; 
-import Field from './fieldModel.mjs';
-import Subfield from './subFieldModel.mjs'
+
 
 import { DataTypes } from 'sequelize';
 import sequelize from '../config/sequelize.mjs'; 
@@ -26,14 +25,6 @@ const CandidateProfile = sequelize.define('CandidateProfile', {
   is_verified: {
     type: DataTypes.ENUM('true','false','pending'),
     defaultValue: false
-  },
-  fieldID: {
-    type: DataTypes.INTEGER,
-    allowNull: true,
-  },
-  subfieldID: {
-    type: DataTypes.INTEGER,
-    allowNull: true,
   },
   birth_date: {
     type: DataTypes.DATEONLY,
@@ -75,8 +66,7 @@ const CandidateProfile = sequelize.define('CandidateProfile', {
 });
 
 CandidateProfile.belongsTo(User, { foreignKey: 'userID' });
-CandidateProfile.belongsTo(Field, { foreignKey: 'fieldID' });
-CandidateProfile.belongsTo(Subfield, { foreignKey: 'subfieldID' });
+
 
 (async () => {
     try {

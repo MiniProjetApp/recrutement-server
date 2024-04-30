@@ -26,10 +26,6 @@ const User = sequelize.define('user', {
   is_verified: {
     type: DataTypes.BOOLEAN,
     defaultValue: false
-  },
-  phone_number: {
-    type: DataTypes.STRING,
-    allowNull: true
   }
 }, {
 
