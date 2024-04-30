@@ -21,13 +21,13 @@ export class AuthController {
       let newUser;
       console.log("Account type:", role); 
       if (role === "candidate") {
-        newUser = await AuthService.registerCandidate(role, userData);
+        const token  = await AuthService.registerCandidate(role, userData);
       } else if (role === "entreprise") {
-        newUser = await AuthService.registerEnterpriseUser(role, userData);
+        const token = await AuthService.registerEnterpriseUser(role, userData);
       } else {
         return res.status(400).json({ message: "Invalid account type" });
       }
-      res.status(201).json(newUser);
+      res.status(201).json(token);
     } catch (error) {
       if (error.status){
         res.status(error.status).json({message: error.message})

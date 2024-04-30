@@ -61,6 +61,18 @@ export class AuthService {
 
       await newProfile.save();
       console.log("Candidate registered successfully:", newUser);
+      const token = jwt.sign(
+        {
+          userId: user.userID,
+          role: user.role,
+        },
+        "carmaker123",
+        { expiresIn: "1h" }
+      );
+  
+      console.log(user.userID);
+  
+      return token;
     } catch (error) {
       console.error("Error registering candidate:", error);
       throw error;
@@ -95,6 +107,18 @@ export class AuthService {
 
       await newProfile.save();
       console.log("Enterprise user registered successfully:", newUser);
+      const token = jwt.sign(
+        {
+          userId: user.userID,
+          role: user.role,
+        },
+        "carmaker123",
+        { expiresIn: "1h" }
+      );
+  
+      console.log(user.userID);
+  
+      return token;
     } catch (error) {
       console.error("Error registering enterprise user:", error);
       throw error;
