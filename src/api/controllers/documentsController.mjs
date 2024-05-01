@@ -2,6 +2,7 @@ import documentModel from "../models/verificationDocumentsModel.mjs"
 import multer from "multer"
 import path from "path"
 import { fileURLToPath } from 'url';
+import {projectDir} from "../../index.mjs"
 
 
 export class DocumentsController{
@@ -49,8 +50,8 @@ export class DocumentsController{
         }
         try {
           const __filename = fileURLToPath(import.meta.url)
-          const projectDir = path.dirname(__filename)
-          console.log(projectDir);
+          // const projectDir = path.dirname(__filename)
+          // console.log(projectDir);
           const documents = await  documentModel.findAll({
             where: { userID: userID },
             attributes: ['resource_link']

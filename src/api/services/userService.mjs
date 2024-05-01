@@ -3,10 +3,12 @@ import { Op, where } from "sequelize";
 import candidateProfile from "../models/candidateProfileModel.mjs";
 import ProfileEntreprise from "../models/entrepriseProfileModel.js";
 import EnterpriseProfile from "../models/entrepriseProfileModel.js";
+import {projectDir} from "../../index.mjs"
+
 
 export class userService {
   static async getCandidateInfo(userTargetID) {
-    let token = null; // Initialize token variable
+    let token = null; 
     try {
       const userData = await candidateProfile.findByPk(userTargetID);
       console.log(userTargetID);
@@ -15,6 +17,7 @@ export class userService {
         notFoundError.status = 404;
         throw notFoundError;
       } else {
+        userData.dataValues.picture = (projectDir+userData.dataValues.picture).replace(/\\/g, '/')
         return userData.dataValues;
       }
     } catch (error) {
