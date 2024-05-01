@@ -13,7 +13,9 @@ export class userService {
     let token = null; 
     try {
       const userData = await candidateProfile.findByPk(userTargetID);
-      const role = (await userModel.findByPk(userTargetID)).role
+      const userData2 = await userModel.findByPk(userTargetID)
+      const role = userData2.role
+      const email = userData2.email
       console.log(userTargetID);
       if (!userData) {
         const notFoundError = new Error("User doesn't exist");
@@ -36,7 +38,9 @@ export class userService {
     try {
       console.log("gg");
       const userData = await EnterpriseProfile.findByPk(userTargetID);
-      const role = (await userModel.findByPk(userTargetID)).role
+      const userData2 = await userModel.findByPk(userTargetID)
+      const role = userData2.role
+      const email = userData2.email
       
       if (!userData) {
         const notFoundError = new Error("User doesn't exist");
