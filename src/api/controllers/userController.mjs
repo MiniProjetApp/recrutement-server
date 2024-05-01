@@ -182,7 +182,7 @@ export class userController{
             res.status(200).json(finalobject)
             console.log(userData)
 
-            } else if (role === 'enterprise') {
+            } else if (role === 'entreprise') {
                 userData = await userService.getEntrepriseInfo(req.user.userId);
               res.status(200).json(userData);
 
