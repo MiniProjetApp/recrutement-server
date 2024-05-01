@@ -1,8 +1,10 @@
 import User from "../models/userModel.mjs";
+import sequelize from "../config/sequelize.mjs";
 import { Op, where } from "sequelize";
 import candidateProfile from "../models/candidateProfileModel.mjs";
 import ProfileEntreprise from "../models/entrepriseProfileModel.js";
 import EnterpriseProfile from "../models/entrepriseProfileModel.js";
+import userModel from '../models/userModel.mjs'
 import {projectDir} from "../../index.mjs"
 
 
@@ -11,14 +13,18 @@ export class userService {
     let token = null; 
     try {
       const userData = await candidateProfile.findByPk(userTargetID);
+      const role = (await userModel.findByPk(userTargetID)).role
       console.log(userTargetID);
       if (!userData) {
         const notFoundError = new Error("User doesn't exist");
         notFoundError.status = 404;
         throw notFoundError;
       } else {
+        userData.dataValues.role = role
         if (userData.picture){
           userData.dataValues.picture = (projectDir+userData.dataValues.picture).replace(/\\/g, '/')}
+          console.log("result: ")
+          console.log(userData.dataValues)
           return userData.dataValues;
       }
     } catch (error) {
@@ -29,11 +35,13 @@ export class userService {
     try {
       console.log("gg");
       const userData = await EnterpriseProfile.findByPk(userTargetID);
+      const role = (await userModel.findByPk(userTargetID)).role
       if (!userData) {
         const notFoundError = new Error("User doesn't exist");
         notFoundError.status = 404;
         throw notFoundError;
       } else {
+        userData.dataValues.role = role
         return userData.dataValues;
       }
     } catch (error) {
