@@ -22,12 +22,14 @@ export class AuthController {
       console.log("Account type:", role); 
       if (role === "candidate") {
         const token  = await AuthService.registerCandidate(role, userData);
+        res.status(201).json({token});
       } else if (role === "entreprise") {
         const token = await AuthService.registerEnterpriseUser(role, userData);
+       res.status(201).json({token});
+
       } else {
         return res.status(400).json({ message: "Invalid account type" });
       }
-      res.status(201).json(token);
     } catch (error) {
       if (error.status){
         res.status(error.status).json({message: error.message})

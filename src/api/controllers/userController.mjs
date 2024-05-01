@@ -165,13 +165,32 @@ export class userController{
 
             if (role === 'candidate') {
                 userData = await userService.getCandidateInfo(req.user.userId);
+                const userEducation = await advancedInfoService.getAllEducation(req.user.userId);
+              const userExperiences = await advancedInfoService.getAllExperiences(req.user.userId);
+              const userFormations = await advancedInfoService.getAllFormations(req.user.userId);
+              const userLanguages = await advancedInfoService.getLanguagesByUserID(req.user.userId);
+              const userCriteria = await advancedInfoService.getCriteriasByUserID(req.user.userId)
+              let finalobject = {userData:userData,
+                languages: userLanguages,
+                experience : userExperiences,
+                formations : userFormations,
+                education: userEducation,
+                criteria: userCriteria
+            }
+
+            console.log(userLanguages)
+            res.status(200).json(finalobject)
+            console.log(userData)
+
             } else if (role === 'enterprise') {
                 userData = await userService.getEntrepriseInfo(req.user.userId);
+              res.status(200).json(userData);
+
             } else {
                 return res.status(400).json({ error: 'Invalid account type.' });
             }
 
-            res.status(200).json(userData);
+            // res.status(200).json(userData);
             console.log(userData);
         } catch (error) {
             if (error.status) {

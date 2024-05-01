@@ -57,20 +57,21 @@ export class AuthService {
         wilaya: userData.wilaya,
         gender: userData.gender,
         birth_date: userData.birth_date,
+        is_verified: "false"
       });
 
       await newProfile.save();
-      console.log("Candidate registered successfully:", newUser);
+      console.log("Candidate registered successfully:");
       const token = jwt.sign(
         {
-          userId: user.userID,
-          role: user.role,
+          userId: newUser.userID,
+          role: newUser.role,
         },
         "carmaker123",
         { expiresIn: "1h" }
       );
   
-      console.log(user.userID);
+      console.log(token)
   
       return token;
     } catch (error) {
@@ -96,27 +97,27 @@ export class AuthService {
         phone_number: userData.phone_number,
         creation_date: new Date(),
       });
-
+      
       const newProfile = await ProfileEntreprise.create({
         userID: newUser.userID,
         name: userData.name,
         headquarter_state: userData.headquarter_state,
         fieldID: userData.fieldID,
         website: userData.website,
+        is_verified: "false"
       });
 
       await newProfile.save();
       console.log("Enterprise user registered successfully:", newUser);
       const token = jwt.sign(
         {
-          userId: user.userID,
-          role: user.role,
+          userId: newUser.userID,
+          role: newUser.role,
         },
         "carmaker123",
         { expiresIn: "1h" }
       );
   
-      console.log(user.userID);
   
       return token;
     } catch (error) {

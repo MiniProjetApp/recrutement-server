@@ -6,6 +6,7 @@ import EnterpriseProfile from "../models/entrepriseProfileModel.js";
 
 export class userService {
   static async getCandidateInfo(userTargetID) {
+    let token = null; // Initialize token variable
     try {
       const userData = await candidateProfile.findByPk(userTargetID);
       console.log(userTargetID);
