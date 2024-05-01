@@ -17,8 +17,9 @@ export class userService {
         notFoundError.status = 404;
         throw notFoundError;
       } else {
-        userData.dataValues.picture = (projectDir+userData.dataValues.picture).replace(/\\/g, '/')
-        return userData.dataValues;
+        if (userData.picture){
+          userData.dataValues.picture = (projectDir+userData.dataValues.picture).replace(/\\/g, '/')}
+          return userData.dataValues;
       }
     } catch (error) {
       throw error;

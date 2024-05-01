@@ -4,6 +4,7 @@ import bcrypt from "bcrypt";
 import User from "../models/userModel.mjs";
 import Profile from "../models/candidateProfileModel.mjs";
 import ProfileEntreprise from "../models/entrepriseProfileModel.js";
+import sequelize from "../config/sequelize.mjs";
 
 export class AuthService {
   static async login(email, password) {
@@ -32,15 +33,18 @@ export class AuthService {
   }
 
   static async registerCandidate(role, userData) {
+    let transaction;
     try {
+      transaction = await sequelize.transaction();
+
       const email = userData.email;
-      const userEmail = await User.findOne({ where: { email } });
+      const userEmail = await User.findOne({ where: { email } }, { transaction });
       if (userEmail) {
         const conflictError = new Error("Email already exists");
         conflictError.status = 409;
         throw conflictError;
       }
-      console.log(userData.password);
+
       let hashedPass = await bcrypt.hash(userData.password, 12);
       const newUser = await User.create({
         password: hashedPass,
@@ -48,7 +52,7 @@ export class AuthService {
         role: "candidate",
         phone_number: userData.phone_number,
         creation_date: new Date(),
-      });
+      }, { transaction });
 
       const newProfile = await Profile.create({
         userID: newUser.userID,
@@ -58,9 +62,10 @@ export class AuthService {
         gender: userData.gender,
         birth_date: userData.birth_date,
         is_verified: "false"
-      });
+      }, { transaction });
 
-      await newProfile.save();
+      await transaction.commit();
+
       console.log("Candidate registered successfully:");
       const token = jwt.sign(
         {
@@ -70,25 +75,28 @@ export class AuthService {
         "carmaker123",
         { expiresIn: "1h" }
       );
-  
-      console.log(token)
-  
+
       return token;
     } catch (error) {
+      if (transaction) await transaction.rollback();
       console.error("Error registering candidate:", error);
       throw error;
     }
   }
 
   static async registerEnterpriseUser(role, userData) {
+    let transaction;
     try {
+      transaction = await sequelize.transaction();
+
       const email = userData.email;
-      const userEmail = await User.findOne({ where: { email } });
+      const userEmail = await User.findOne({ where: { email } }, { transaction });
       if (userEmail) {
         const conflictError = new Error("Email already exists");
         conflictError.status = 409;
         throw conflictError;
       }
+
       let hashedPass = await bcrypt.hash(userData.password, 12);
       const newUser = await User.create({
         password: hashedPass,
@@ -96,8 +104,8 @@ export class AuthService {
         role: "entreprise",
         phone_number: userData.phone_number,
         creation_date: new Date(),
-      });
-      
+      }, { transaction });
+
       const newProfile = await ProfileEntreprise.create({
         userID: newUser.userID,
         name: userData.name,
@@ -105,9 +113,10 @@ export class AuthService {
         fieldID: userData.fieldID,
         website: userData.website,
         is_verified: "false"
-      });
+      }, { transaction });
 
-      await newProfile.save();
+      await transaction.commit();
+
       console.log("Enterprise user registered successfully:", newUser);
       const token = jwt.sign(
         {
@@ -117,10 +126,10 @@ export class AuthService {
         "carmaker123",
         { expiresIn: "1h" }
       );
-  
-  
+
       return token;
     } catch (error) {
+      if (transaction) await transaction.rollback();
       console.error("Error registering enterprise user:", error);
       throw error;
     }
