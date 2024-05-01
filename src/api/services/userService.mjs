@@ -49,6 +49,7 @@ export class userService {
       } else {
         userData.dataValues.role = role
         userData.dataValues.email = email
+        console.log(userData)
         return userData.dataValues;
       }
     } catch (error) {
@@ -131,10 +132,10 @@ export class userService {
       });
 
       // Fetch and return the updated candidate profile
-      const updatedCandidateProfile = await candidateProfile.findByPk(
+      const updatedCandidateProfile = await userService.getCandidateInfo(
         userTargetID
       );
-      return updatedCandidateProfile.dataValues;
+      return updatedCandidateProfile;
     } catch (error) {
       console.error("Error updating candidate profile:", error);
       throw error;
@@ -157,10 +158,10 @@ export class userService {
       });
 
       // Fetch and return the updated enterprise profile
-      const updatedEnterpriseProfile = await EnterpriseProfile.findByPk(
+      const updatedEnterpriseProfile = await userService.getEntrepriseInfo(
         userTargetID
       );
-      return updatedEnterpriseProfile.dataValues;
+      return updatedEnterpriseProfile;
     } catch (error) {
       console.error("Error updating enterprise profile:", error);
       throw error;
