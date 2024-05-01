@@ -3,6 +3,7 @@ import PostLanguages from "../models/postLanguagesModel.mjs"
 import AdvancedCriteria from "../models/advancedCriteriasModel.mjs"
 import { advancedInfoService } from "./advancedInfoService.mjs"
 import { Op, where } from "sequelize";
+import { SubscriptionService } from "./subscriptionService.mjs";
 
 export class PostService{
     static async findAll(){
@@ -48,6 +49,10 @@ export class PostService{
     }
     static async create(postData,languages,criterias) {
         try {
+          const canPost = await SubscriptionService.canPost(postData.userID);
+            if (!canPost.canPost) {
+                throw new Error("User cannot create a post. Subscription limit reached or expired.");
+            }
           const post = await Post.create(postData);
           post.save()
           if (criterias){

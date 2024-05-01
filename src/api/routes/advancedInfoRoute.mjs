@@ -1,5 +1,6 @@
 import express from "express";
 import {advancedInfoController} from "../controllers/advancedInfoController.mjs";
+import { SubscriptionController } from "../controllers/subscriptionController.mjs";
 
 const router = express.Router();
 
@@ -37,3 +38,4 @@ router.put("/advancedInfo/languages/:userid", advancedInfoController.updateLangu
 router.put("/advancedInfo/criteria/:userid", advancedInfoController.updateAdvancedCriteria);
 export default router;
 
+router.post("/subscription/new",SubscriptionController.createSubscription)

@@ -21,6 +21,7 @@ export class userService {
         throw notFoundError;
       } else {
         userData.dataValues.role = role
+        userData.dataValues.email = email
         if (userData.picture){
           userData.dataValues.picture = (projectDir+userData.dataValues.picture).replace(/\\/g, '/')}
           console.log("result: ")
@@ -36,12 +37,14 @@ export class userService {
       console.log("gg");
       const userData = await EnterpriseProfile.findByPk(userTargetID);
       const role = (await userModel.findByPk(userTargetID)).role
+      
       if (!userData) {
         const notFoundError = new Error("User doesn't exist");
         notFoundError.status = 404;
         throw notFoundError;
       } else {
         userData.dataValues.role = role
+        userData.dataValues.email = email
         return userData.dataValues;
       }
     } catch (error) {

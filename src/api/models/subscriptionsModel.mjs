@@ -1,6 +1,7 @@
 import User from './userModel.mjs'; 
 import { DataTypes } from 'sequelize';
 import sequelize from '../config/sequelize.mjs'; 
+import SubscriptionInfo from './subscriptionInfoModel.mjs';
 
 const Subscription = sequelize.define('Subscription', {
   subID: {
@@ -34,7 +35,7 @@ const Subscription = sequelize.define('Subscription', {
 
 Subscription.belongsTo(User, { foreignKey: 'userID' });
 
-
+Subscription.belongsTo(SubscriptionInfo, { foreignKey: 'subscriptionID' });
 (async () => {
     try {
       await Subscription.sync({ force: false });
