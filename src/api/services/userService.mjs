@@ -153,7 +153,7 @@ export class userService {
       }
 
       await EnterpriseProfile.update(newData, {
-        where: { id: userTargetID },
+        where: { userID: userTargetID },
       });
 
       // Fetch and return the updated enterprise profile
