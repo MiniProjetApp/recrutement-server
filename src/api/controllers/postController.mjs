@@ -21,7 +21,10 @@ export class PostController{
             res.status(200).json({message:"successfully created post"})
         }
         catch(error){
-            console.log(error)
+            // Handle the error and send it as a response
+            console.error("Error creating post:", error);
+            const errorMessage = error instanceof Error ? error.message : "An unexpected error occurred";
+            return res.status(500).json({ success: false, message: errorMessage });
         }
     }
     static async getPostInfo(req,res){

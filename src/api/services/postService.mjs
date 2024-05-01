@@ -51,7 +51,7 @@ export class PostService{
         try {
           const canPost = await SubscriptionService.canPost(postData.userID);
             if (!canPost.canPost) {
-                throw new Error("User cannot create a post. Subscription limit reached or expired.");
+              throw new Error(canPost.message);
             }
           const post = await Post.create(postData);
           post.save()
@@ -64,7 +64,7 @@ export class PostService{
           }
           return post;
         } catch (error) {
-          throw new Error('Error creating post:', error);
+          throw error;
         }
       }
     static async getPostInfo(postID){
