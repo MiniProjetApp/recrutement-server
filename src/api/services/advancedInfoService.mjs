@@ -224,8 +224,7 @@ export class advancedInfoService{
           const promises = languageData.map(async (data) => {
             await PostLanguages.create({
               postID: postID,
-              languageID: data.languageID,
-              level: data.level,
+              languageID: data
             });
           });
     
