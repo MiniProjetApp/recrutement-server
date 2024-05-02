@@ -17,11 +17,13 @@ export class userController{
             const userLanguages = await advancedInfoService.getLanguagesByUserID(req.params['id']);
             const userCriteria = await advancedInfoService.getCriteriasByUserID(req.params['id'])
             let finalobject = {userData:userData,
+              role: userData.role,
+              email: userData.email,
               languages: userLanguages,
               experience : userExperiences,
               formations : userFormations,
               education: userEducation,
-              criteria: userCriteria
+              criteria: userCriteria,
             }
 
             console.log(userLanguages)
@@ -171,6 +173,8 @@ export class userController{
               const userLanguages = await advancedInfoService.getLanguagesByUserID(req.user.userId);
               const userCriteria = await advancedInfoService.getCriteriasByUserID(req.user.userId)
               let finalobject = {userData:userData,
+                role: userData.role,
+                email: userData.email,
                 languages: userLanguages,
                 experience : userExperiences,
                 formations : userFormations,
