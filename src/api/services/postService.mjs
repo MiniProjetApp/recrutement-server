@@ -29,11 +29,17 @@ export class PostService{
           });
           const criterias = postCriterias.map(criteria => criteria.criteriaID);
           const postMaker = await userService.getEntrepriseInfo(post.userID);
-          finalobject.entreprise = postMaker.name;
-          finalobject.picture = postMaker.logo;
+          if (postMaker){
+          console.log(postMaker.name)
+          post.dataValues.entreprise = postMaker.name;
+          post.dataValues.picture = postMaker.logo;
+          console.log("post: ")
+          console.log(post)
+          }          
+          
           let finalobject = {...post.toJSON(),
-          languages: languages,
-          criterias: criterias
+            languages: languages,
+            criterias: criterias
           }
           if (criterias.length===0){
             delete finalobject['criterias']
@@ -42,9 +48,11 @@ export class PostService{
             delete finalobject['languages']
           }
           // Construct the data object for the post
+          console.log("got here")
+          console.log(finalobject)
           return (finalobject);
         }));
-    
+        console.log("final data:");
         console.log(postsWithData);
         return(postsWithData) // This will log all posts along with their associated languages and criteria
       } catch (error) {

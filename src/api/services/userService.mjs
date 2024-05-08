@@ -43,13 +43,13 @@ export class userService {
       const email = userData2.email
       
       if (!userData) {
-        const notFoundError = new Error("User doesn't exist");
-        notFoundError.status = 404;
-        throw notFoundError;
+        // const notFoundError = new Error("User doesn't exist");
+        // notFoundError.status = 404;
+        // throw notFoundError;
+        return null;
       } else {
         userData.dataValues.role = role
         userData.dataValues.email = email
-        console.log(userData)
         return userData.dataValues;
       }
     } catch (error) {
