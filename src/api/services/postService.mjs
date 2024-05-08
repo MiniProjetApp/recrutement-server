@@ -4,6 +4,7 @@ import AdvancedCriteria from "../models/advancedCriteriasModel.mjs"
 import { advancedInfoService } from "./advancedInfoService.mjs"
 import { Op, where } from "sequelize";
 import { SubscriptionService } from "./subscriptionService.mjs";
+import { userService } from "./userService.mjs";
 
 export class PostService{
     static async findAll(){
@@ -27,6 +28,9 @@ export class PostService{
             },
           });
           const criterias = postCriterias.map(criteria => criteria.criteriaID);
+          const postMaker = await userService.getEntrepriseInfo(post.userID);
+          finalobject.entreprise = postMaker.name;
+          finalobject.picture = postMaker.logo;
           let finalobject = {...post.toJSON(),
           languages: languages,
           criterias: criterias
@@ -90,6 +94,11 @@ export class PostService{
             level: language.level
           }));
 
+          const postMaker =  await userService.getEntrepriseInfo(post.userID)
+          post.dataValues.entreprise = postMaker.name
+          post.dataValues.picture = postMaker.logo
+          console.log(post)
+
           // Extracting criteria data
           const criterias = postCriteria.map(criteria => criteria.criteriaID);
           console.log(criterias)
@@ -152,6 +161,11 @@ export class PostService{
               },
             });
             const criterias = postCriterias.map(criteria => criteria.criteriaID);
+            const postMaker =  await userService.getEntrepriseInfo(post.userID)
+            post.dataValues.entreprise = postMaker.name
+            post.dataValues.picture = postMaker.logo
+            console.log(post)
+              
             let finalobject = {...post.toJSON(),
               languages: languages,
               criterias: criterias
