@@ -195,4 +195,37 @@ export class PostService{
           throw error;
         }
       }
+      static async deletePostByID(postID) {
+        try {
+            // Find the post by ID
+            const post = await Post.findByPk(postID);
+
+            if (!post) {
+                const notFoundError = new Error("Post not found");
+                notFoundError.status = 404;
+                throw notFoundError;
+            }
+
+            // Delete associated post languages
+            await PostLanguages.destroy({
+                where: {
+                    postID: postID
+                }
+            });
+
+            // Delete associated advanced criterias
+            await AdvancedCriteria.destroy({
+                where: {
+                    postID: postID
+                }
+            });
+
+            // Finally, delete the post itself
+            await post.destroy();
+
+            return { message: "Post deleted successfully" };
+        } catch (error) {
+            throw error;
+        }
+    }
 }

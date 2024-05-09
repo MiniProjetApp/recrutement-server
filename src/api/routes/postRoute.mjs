@@ -8,5 +8,6 @@ router.post("/post/create",PostController.create);
 router.get("/post/all", PostController.findAll);
 router.get("/post/get/:id",PostController.getPostInfo)
 router.get("/post/search",PostController.searchPosts)
+router.delete("/post/delete/:id",PostController.deletePostByID)
 
 export default router;

@@ -57,4 +57,18 @@ export class PostController{
           res.status(500).json({ error: "Internal server error" });
         }
       }
+
+      static async deletePostByID(req, res) {
+        try {
+            const postID = req.params.id;
+            
+            const result = await PostService.deletePostByID(postID);
+
+            res.status(200).json({ success: true, message: result.message });
+        } catch (error) {
+            console.error("Error deleting post:", error);
+            const errorMessage = error instanceof Error ? error.message : "An unexpected error occurred";
+            return res.status(500).json({ success: false, message: errorMessage });
+        }
+    }
 }
