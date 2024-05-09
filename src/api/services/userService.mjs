@@ -142,6 +142,8 @@ export class userService {
       const userLanguages = await advancedInfoService.getLanguagesByUserID(userTargetID);
       const userCriteria = await advancedInfoService.getCriteriasByUserID(userTargetID)
       let finalobject = {userData:updatedCandidateProfile,
+        email:updatedCandidateProfile.email,
+        role:updatedCandidateProfile.role,
         languages: userLanguages,
         experience : userExperiences,
         formations : userFormations,
