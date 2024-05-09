@@ -6,6 +6,7 @@ import ProfileEntreprise from "../models/entrepriseProfileModel.js";
 import EnterpriseProfile from "../models/entrepriseProfileModel.js";
 import userModel from '../models/userModel.mjs'
 import {projectDir} from "../../index.mjs"
+import { advancedInfoService } from "./advancedInfoService.mjs";
 
 
 export class userService {
@@ -135,7 +136,20 @@ export class userService {
       const updatedCandidateProfile = await userService.getCandidateInfo(
         userTargetID
       );
-      return updatedCandidateProfile;
+      const userEducation = await advancedInfoService.getAllEducation(userTargetID);
+      const userExperiences = await advancedInfoService.getAllExperiences(userTargetID);
+      const userFormations = await advancedInfoService.getAllFormations(userTargetID);
+      const userLanguages = await advancedInfoService.getLanguagesByUserID(userTargetID);
+      const userCriteria = await advancedInfoService.getCriteriasByUserID(userTargetID)
+      let finalobject = {userData:updatedCandidateProfile,
+        languages: userLanguages,
+        experience : userExperiences,
+        formations : userFormations,
+        education: userEducation,
+        criteria: userCriteria
+        }
+      return(finalobject)
+            
     } catch (error) {
       console.error("Error updating candidate profile:", error);
       throw error;

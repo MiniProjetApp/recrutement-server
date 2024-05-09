@@ -167,7 +167,7 @@ export class userController{
 
             if (role === 'candidate') {
                 userData = await userService.getCandidateInfo(req.user.userId);
-                const userEducation = await advancedInfoService.getAllEducation(req.user.userId);
+              const userEducation = await advancedInfoService.getAllEducation(req.user.userId);
               const userExperiences = await advancedInfoService.getAllExperiences(req.user.userId);
               const userFormations = await advancedInfoService.getAllFormations(req.user.userId);
               const userLanguages = await advancedInfoService.getLanguagesByUserID(req.user.userId);
