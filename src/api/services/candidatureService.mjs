@@ -136,4 +136,15 @@ export class candidatureService{
         await final_candidatre.save()
         console.log(score)
         return true
-}}
+}
+
+    static async getCandidatures(userID) {
+        try {
+            const candidatures = await candidature.findAll({ where: { userID } });
+            return candidatures;
+        } catch (error) {
+            console.error("Error fetching candidatures:", error);
+            throw new Error("Unable to fetch candidatures");
+        }
+    }
+}
