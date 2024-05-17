@@ -141,7 +141,35 @@ export class candidatureService{
     static async getCandidatures(userID) {
         try {
             const candidatures = await candidature.findAll({ where: { userID } });
-            return candidatures;
+            const candidatureWithPostInfo = await Promise.all(candidatures.map(async (candidature) => {
+                const postInfo = await PostService.getPostInfo(candidature.postID);
+                return {
+                    candidatureID: candidature.id,
+                    userID: candidature.userID,
+                    score: candidature.score,
+                    postInfo
+                };
+            }));
+            return candidatureWithPostInfo;
+        } catch (error) {
+            console.error("Error fetching candidatures:", error);
+            throw new Error("Unable to fetch candidatures");
+        }
+    }
+
+    static async getCandidaturesByPostID(postID) {
+        try {
+            const candidatures = await candidature.findAll({ where: { postID } });
+            const candidatureWithUserInfo = await Promise.all(candidatures.map(async (candidature) => {
+                const userInfo = await userService.getCandidateInfo(candidature.userID);
+                return {
+                    candidatureID: candidature.id,
+                    postID: candidature.postID,
+                    score: candidature.score,
+                    userInfo
+                };
+            }));
+            return candidatureWithUserInfo;
         } catch (error) {
             console.error("Error fetching candidatures:", error);
             throw new Error("Unable to fetch candidatures");

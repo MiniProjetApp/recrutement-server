@@ -29,4 +29,18 @@ export class candidatureController{
             }
         }
     }
+
+    static async getCandidaturesByPostID(req, res) {
+        try {
+            const { postID } = req.params;
+            const candidatures = await candidatureService.getCandidaturesByPostID(postID);
+            res.status(200).json(candidatures);
+        } catch (error) {
+            if (error.status) {
+                res.status(error.status).json({ message: error.message });
+            } else {
+                res.status(400).json({ message: error.message });
+            }
+        }
+    }
 }
