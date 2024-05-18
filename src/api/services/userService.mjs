@@ -105,6 +105,9 @@ export class userService {
         if (params.headquarter_state) {
           whereClause.headquarter_state = params.headquarter_state;
         }
+        if (params.is_verified) {
+          whereClause.is_verified = params.is_verified;
+        }
       }
 
       const entrepriseProfiles = await EnterpriseProfile.findAll({
