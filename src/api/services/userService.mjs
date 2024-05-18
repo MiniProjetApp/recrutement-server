@@ -77,8 +77,8 @@ export class userService {
         if (params.fieldID) {
           whereClause.fieldID = params.fieldID;
         }
-        if (params.is_verified !== undefined && params.is_verified == "true") {
-          whereClause.is_verified = "true";
+        if (params.is_verified) {
+          whereClause.is_verified = params.is_verified;
         }
       }
       console.log("where clause: ");

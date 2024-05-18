@@ -42,6 +42,7 @@ export class userController{
     }
     static async getEntrepriseInfo(req,res){
         try{
+          console.log("ge")
             const userData = await userService.getEntrepriseInfo(req.params['id'])
             res.status(200).json(userData)
             console.log(userData)
