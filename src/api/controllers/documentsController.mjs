@@ -6,42 +6,47 @@ import {projectDir} from "../../index.mjs"
 
 
 export class DocumentsController{
-    static async newDocuments(req, res) {
-      let final_name;
-        const upload = multer({
-          storage: multer.diskStorage({
-            destination: function (req, file, cb) {
-              cb(null, 'uploads/documents');
-            },
-            filename: function (req, file, cb) {
-              const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-              final_name = 'http://localhost:3000/uploads/documents/'+uniqueSuffix + path.extname(file.originalname)
-              cb(null, uniqueSuffix + path.extname(file.originalname));
-            }
-          })
-        }).array('files', 10);
-    
-        upload(req, res, function (err) {
-          if (err instanceof multer.MulterError) {
-            res.status(500).json({ error: 'Multer error occurred.' });
-            console.log(err)
-          } else if (err) {
-            console.log(err)
-            // An unknown error occurred.
-            res.status(500).json({ error: 'An unknown error occurred.' });
-          } else {
-            try{
-              documentModel.create({
-                resource_link:final_name,
-                userID:req.body.userID
-              })
-            }catch(error){
-              console.log(error)
-            }
-            res.status(200).json({ message: 'Files uploaded successfully.' });
-          }
-        });
+  static async newDocuments(req, res) {
+    const upload = multer({
+      storage: multer.diskStorage({
+        destination: function (req, file, cb) {
+          cb(null, 'uploads/documents');
+        },
+        filename: function (req, file, cb) {
+          const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+          cb(null, uniqueSuffix + path.extname(file.originalname));
+        }
+      })
+    }).array('files', 10);
+
+    upload(req, res, async function (err) {
+      if (err instanceof multer.MulterError) {
+        res.status(500).json({ error: 'Multer error occurred.' });
+        console.log(err);
+      } else if (err) {
+        console.log(err);
+        // An unknown error occurred.
+        res.status(500).json({ error: 'An unknown error occurred.' });
+      } else {
+        try {
+          const files = req.files;
+          const userID = req.body.userID;
+          const documentPromises = files.map(file => {
+            const fileUrl = 'http://localhost:3000/uploads/documents/' + file.filename;
+            return documentModel.create({
+              resource_link: fileUrl,
+              userID: userID
+            });
+          });
+          await Promise.all(documentPromises);
+          res.status(200).json({ message: 'Files uploaded successfully.' });
+        } catch (error) {
+          console.log(error);
+          res.status(500).json({ error: 'An error occurred while saving documents to the database.' });
+        }
       }
+    });
+  }
 
       static async getUserDocuments(req, res) {
         const userID = req.params['userid']; 
