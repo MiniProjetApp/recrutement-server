@@ -15,7 +15,7 @@ export class DocumentsController{
             },
             filename: function (req, file, cb) {
               const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-              final_name = 'uploads/documents/'+uniqueSuffix + path.extname(file.originalname)
+              final_name = 'http://localhost:3000/uploads/documents/'+uniqueSuffix + path.extname(file.originalname)
               cb(null, uniqueSuffix + path.extname(file.originalname));
             }
           })
@@ -56,10 +56,10 @@ export class DocumentsController{
             where: { userID: userID },
             attributes: ['resource_link']
           });
-          const documentPaths = documents.map(doc => (projectDir+doc.resource_link));
+          const documentPaths = documents.map(doc => (projectDir+"/"+doc.resource_link));
           const sanitizedPaths = documentPaths.map(path => path.replace(/\\/g, '/'));
-      
-          res.status(200).json({ documents: sanitizedPaths });
+          console.log(documents)
+          res.status(200).json(documents);
         } catch (error) {
           console.error("Error retrieving documents:", error);
           res.status(500).json({ error: 'An error occurred while retrieving documents.' });

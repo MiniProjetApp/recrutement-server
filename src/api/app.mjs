@@ -1,4 +1,5 @@
 import express from "express";
+import path from "path"
 import cors from "cors";
 import authRouter from "./routes/auth.route.mjs";
 import postRouter from "./routes/postRoute.mjs"
@@ -14,7 +15,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use(cors({ origin: "*" }));
-
+app.use('/uploads', express.static(path.resolve('uploads')));
 // Routes
 app.use("/",authRouter);
 app.use("/",candidatureRoute);
@@ -22,6 +23,7 @@ app.use("/",postRouter);
 app.use("/",userRouter);
 app.use("/",advancedInforouter);
 app.use("/",documentsRouter);
+
 
 app.use((err, req, res, next) => {
   if (err instanceof HttpError) {

@@ -58,6 +58,15 @@ const CandidateProfile = sequelize.define('CandidateProfile', {
     type: DataTypes.STRING(50),
     allowNull: true,
   },
+  top_color: {
+    type: DataTypes.STRING(7),
+    allowNull: true,
+  },
+  bottom_color: {
+    type: DataTypes.STRING(7),
+    allowNull: true,
+  },
+
 }, {
   tableName: 'candidate_profile',
   timestamps: false,

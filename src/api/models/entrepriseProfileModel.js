@@ -37,7 +37,15 @@ const EnterpriseProfile = sequelize.define('EnterpriseProfile', {
   is_verified:{
     type: DataTypes.ENUM('true','false','pending'),
     allowNull: false,
-  }
+  },
+  top_color: {
+    type: DataTypes.STRING(7),
+    allowNull: true,
+  },
+  bottom_color: {
+    type: DataTypes.STRING(7),
+    allowNull: true,
+  },
 }, {
   tableName: 'enterprise_profile',
   timestamps: false,

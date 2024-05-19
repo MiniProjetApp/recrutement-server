@@ -17,6 +17,7 @@ app.listen(3000, () => {
   console.log("server started");
 });
 
+
 const __filename = fileURLToPath(import.meta.url)
 const projectDir = path.dirname(__filename) 
 export {projectDir}
