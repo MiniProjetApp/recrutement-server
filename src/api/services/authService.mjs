@@ -61,6 +61,7 @@ export class AuthService {
         wilaya: userData.wilaya,
         gender: userData.gender,
         birth_date: userData.birth_date,
+        biography:"",
         is_verified: "false"
       }, { transaction });
 
@@ -102,6 +103,7 @@ export class AuthService {
         password: hashedPass,
         email: userData.email,
         role: "entreprise",
+        description:"",
         phone_number: userData.phone_number,
         creation_date: new Date(),
       }, { transaction });

@@ -135,15 +135,13 @@ export class userService {
         where: { userID: userTargetID },
       });
 
-      // Fetch and return the updated candidate profile
-      const updatedCandidateProfile = await userService.getCandidateInfo(
-        userTargetID
-      );
-      const userEducation = await advancedInfoService.getAllEducation(userTargetID);
+      const updatedCandidateProfile = await userService.getCandidateInfo(userTargetID);
       const userExperiences = await advancedInfoService.getAllExperiences(userTargetID);
       const userFormations = await advancedInfoService.getAllFormations(userTargetID);
-      const userLanguages = await advancedInfoService.getLanguagesByUserID(userTargetID);
+      const userLanguages = await advancedInfoService.getLanguagesByUserID(userTargetID);       
+      const userEducation = await advancedInfoService.getAllEducation(userTargetID);
       const userCriteria = await advancedInfoService.getCriteriasByUserID(userTargetID)
+
       let finalobject = {userData:updatedCandidateProfile,
         email:updatedCandidateProfile.email,
         role:updatedCandidateProfile.role,
@@ -153,6 +151,7 @@ export class userService {
         education: userEducation,
         criteria: userCriteria
         }
+
       return(finalobject)
             
     } catch (error) {
