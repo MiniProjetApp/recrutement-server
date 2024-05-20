@@ -126,14 +126,14 @@ export class userController{
             },
             filename: function (req, file, cb) {
               const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-              final_name = 'uploads/profile_pictures/' + uniqueSuffix + path.extname(file.originalname);
+              final_name = 'http://localhost:3000/uploads/profile_pictures/' + uniqueSuffix + path.extname(file.originalname);
               cb(null, uniqueSuffix + path.extname(file.originalname));
             }
           })
         }).single('picture'); 
         upload(req, res, async function (err) {
           if (err instanceof multer.MulterError) {
-            console.log
+            console.log(err)
             res.status(500).json({ error: 'Multer error occurred.' });
           } else if (err) {
             res.status(500).json({ error: 'An unknown error occurred.' });
