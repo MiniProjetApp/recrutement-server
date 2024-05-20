@@ -69,7 +69,6 @@ export class SubscriptionService {
 
     static async createSubscription(userID, subscriptionInfoID) {
         try {
-            // Check if the user already has a subscription
             const existingSubscription = await Subscription.findOne({
                 where: {
                     userID: userID
@@ -77,14 +76,16 @@ export class SubscriptionService {
             });
 
             if (existingSubscription) {
-                return { success: false, message: "User already has a subscription" };
+                await Subscription.destroy({
+                    where: {
+                        userID: userID
+                    }
+                });
             }
 
-            // Set the starting date to today and the ending date to a month from now
             const startingDate = moment().format('YYYY-MM-DD');
             const endingDate = moment().add(1, 'month').format('YYYY-MM-DD');
 
-            // Create the subscription for the user
             await Subscription.create({
                 userID: userID,
                 subscriptionID: subscriptionInfoID,
@@ -96,6 +97,26 @@ export class SubscriptionService {
         } catch (error) {
             console.error("Error creating subscription:", error);
             return { success: false, message: "An error occurred while creating subscription" };
+        }
+    }
+
+    static async getSubscription(userID) {
+        try {
+            // Find the subscription for the given user
+            const subscription = await Subscription.findOne({
+                where: {
+                    userID: userID
+                }
+            });
+
+            if (subscription) {
+                return { success: true, subscription };
+            } else {
+                return { success: false, message: "No subscription found for this user" };
+            }
+        } catch (error) {
+            console.error("Error retrieving subscription:", error);
+            return { success: false, message: "An error occurred while retrieving subscription" };
         }
     }
 }

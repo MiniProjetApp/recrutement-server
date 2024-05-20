@@ -39,3 +39,4 @@ router.put("/advancedInfo/criteria/:userid", advancedInfoController.updateAdvanc
 export default router;
 
 router.post("/subscription/new",SubscriptionController.createSubscription)
+router.get("/subscription/get/:userID",SubscriptionController.getSubscription)
