@@ -146,7 +146,7 @@ export class userController{
     
               if (userType === 'candidate') {
                 await CandidateProfile.update({ picture: final_name }, { where: { userID } });
-              } else if (userType === 'enterprise') {
+              } else if (userType === 'entreprise') {
                 await EnterpriseProfile.update({ logo: final_name }, { where: { userID } });
               } else {
                 return res.status(400).json({ error: 'Invalid user type.' });
