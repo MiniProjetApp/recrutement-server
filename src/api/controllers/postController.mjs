@@ -42,21 +42,25 @@ export class PostController{
     }
     static async searchPosts(req, res) {
         try {
-            console.log("get")
-          const searchParams = {
-            title: req.query.title,
-            fieldID: req.query.fieldID,
-            wilaya: req.query.wilaya,
-          };
+            console.log(req.query);
+            
+            const searchParams = {
+                title: req.query.title,
+                fieldID: req.query.fieldID,
+                wilaya: req.query.wilaya,
+                subfieldID: req.query.subfieldID,
+                experience_required: req.query.experience_required,
+                study_level: req.query.study_level
+            };
     
-          const posts = await PostService.searchPosts(searchParams);
+            const posts = await PostService.searchPosts(searchParams);
     
-          res.status(200).json( posts );
+            res.status(200).json(posts);
         } catch (error) {
-          console.error("Error searching posts:", error);
-          res.status(500).json({ error: "Internal server error" });
+            console.error("Error searching posts:", error);
+            res.status(500).json({ error: "Internal server error" });
         }
-      }
+    }
 
       static async deletePostByID(req, res) {
         try {

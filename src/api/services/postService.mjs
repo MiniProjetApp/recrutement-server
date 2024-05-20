@@ -135,6 +135,7 @@ export class PostService{
          const whereClause = {};
       
         if (params && typeof params === "object") {
+          console.log(params)
           if (params.title) {
             whereClause.title = { [Op.like]: `%${params.title}%` };
           }
@@ -143,6 +144,18 @@ export class PostService{
           }
           if (params.wilaya) {
             whereClause.wilaya = { [Op.like]: `%${params.wilaya}%` };            }
+          }
+          if (params.subfieldID) {
+            whereClause.subfieldID = params.subfieldID;
+          }
+          if (params.experience_required) {
+            console.log("there is experience")
+            whereClause[Op.or] = whereClause[Op.or] || [];
+            whereClause[Op.or].push({ experience_required: { [Op.lte]: params.experience_required } }, { experience_required: null });
+          }
+          if (params.study_level) {
+            whereClause[Op.or] = whereClause[Op.or] || [];
+            whereClause[Op.or].push({ study_level: { [Op.lte]: params.study_level } }, { study_level: null });
           }
       
           console.log("where clause: ");
@@ -170,9 +183,9 @@ export class PostService{
             });
             const criterias = postCriterias.map(criteria => criteria.criteriaID);
             const postMaker =  await userService.getEntrepriseInfo(post.userID)
+            console.log(post.userID)
             post.dataValues.entreprise = postMaker.name
             post.dataValues.picture = postMaker.logo
-            console.log(post)
               
             let finalobject = {...post.toJSON(),
               languages: languages,
@@ -185,7 +198,6 @@ export class PostService{
               delete finalobject['languages']
             }
             // Construct the data object for the post
-            console.log(finalobject)
             return (finalobject);
           }));
       
