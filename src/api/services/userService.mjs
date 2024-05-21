@@ -81,11 +81,12 @@ export class userService {
           whereClause.is_verified = params.is_verified;
         }
       }
-      console.log("where clause: ");
-      console.log(whereClause);
+      
       const candidateProfiles = await candidateProfile.findAll({
         where: whereClause,
       });
+      console.log("params: ")
+      console.log(params)
       return candidateProfiles;
     } catch (error) {
       console.error("Error searching candidate profiles:", error);
@@ -95,6 +96,7 @@ export class userService {
   static async searchEntreprise(params) {
     try {
       const whereClause = {};
+      console.log(params)
       if (params && typeof params === "object") {
         if (params.name) {
           whereClause.name = { [Op.like]: `%${params.name}%` };
@@ -118,6 +120,7 @@ export class userService {
       console.error("Error searching entreprise profiles:", error);
       throw error;
     }
+    
   }
 
   static async updateCandidateProfile(userTargetID, newData) {
@@ -182,6 +185,21 @@ export class userService {
       return updatedEnterpriseProfile;
     } catch (error) {
       console.error("Error updating enterprise profile:", error);
+      throw error;
+    }
+  }
+
+  static async deleteUser(userID) {
+    try {
+      // Delete the user with the given userID
+      await userModel.destroy({
+        where: { id: userID }
+      });
+  
+      // Return success message or handle the response as required
+      return { message: "User deleted successfully" };
+    } catch (error) {
+      console.error("Error deleting user:", error);
       throw error;
     }
   }

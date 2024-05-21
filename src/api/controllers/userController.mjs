@@ -115,10 +115,26 @@ export class userController{
           }
         }
       }
+
+      static async deleteUser(req, res) {
+        try {
+          const userId = req.params.userID;
+          await userService.deleteUser(userId);
+          res.status(200).json({ message: 'User deleted successfully.' });
+        } catch (error) {
+          if (error.status) {
+            res.status(error.status).json({ message: error.message });
+          } else {
+            res.status(400).json({ message: error.message });
+          }
+        }
+      }
+    
     
 
       static async uploadProfilePicture(req, res) {
         let final_name;
+        
         const upload = multer({
           storage: multer.diskStorage({
             destination: function (req, file, cb) {
@@ -127,10 +143,14 @@ export class userController{
             filename: function (req, file, cb) {
               const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
               final_name = 'http://localhost:3000/uploads/profile_pictures/' + uniqueSuffix + path.extname(file.originalname);
+              console.log(`got here`)
+
+
               cb(null, uniqueSuffix + path.extname(file.originalname));
             }
           })
         }).single('picture'); 
+        
         upload(req, res, async function (err) {
           if (err instanceof multer.MulterError) {
             console.log(err)
@@ -146,6 +166,7 @@ export class userController{
     
               if (userType === 'candidate') {
                 await CandidateProfile.update({ picture: final_name }, { where: { userID } });
+                console.log(`added ${final_name}`)
               } else if (userType === 'entreprise') {
                 await EnterpriseProfile.update({ logo: final_name }, { where: { userID } });
               } else {
