@@ -25,11 +25,9 @@ export class userService {
       } else {
         userData.dataValues.role = role
         userData.dataValues.email = email
-        if (userData.picture){
-          userData.dataValues.picture = (projectDir+userData.dataValues.picture).replace(/\\/g, '/')}
-          console.log("result: ")
-          console.log(userData.dataValues)
-          return userData.dataValues;
+        console.log("result: ")
+        console.log(userData.dataValues)
+        return userData.dataValues;
       }
     } catch (error) {
       throw error;
