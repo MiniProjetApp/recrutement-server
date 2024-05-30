@@ -175,4 +175,20 @@ export class candidatureService{
             throw new Error("Unable to fetch candidatures");
         }
     }
+
+    static async deleteCandidatureByUserIDAndPostID(userID, postID) {
+        try {
+            const deletedCandidature = await candidature.destroy({ where: { userID, postID } });
+            if (deletedCandidature) {
+                return true; 
+            } else {
+                throw new Error("Candidature not found for the given userID and postID");
+            }
+        } catch (error) {
+            console.error("Error deleting candidature:", error);
+            throw new Error("Unable to delete candidature");
+        }
+    }
+
+    
 }

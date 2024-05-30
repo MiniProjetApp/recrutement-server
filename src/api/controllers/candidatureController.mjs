@@ -43,4 +43,18 @@ export class candidatureController{
             }
         }
     }
+
+    static async deleteCandidatureByUserIDAndPostID(req, res) {
+        try {
+            const { userID, postID } = req.body;
+            const deleted = await candidatureService.deleteCandidatureByUserIDAndPostID(userID, postID);
+            if (deleted) {
+                res.status(200).json({ message: "Candidature deleted successfully" });
+            } else {
+                res.status(404).json({ message: "Candidature not found" });
+            }
+        } catch (error) {
+            res.status(500).json({ message: error.message });
+        }
+    }
 }
