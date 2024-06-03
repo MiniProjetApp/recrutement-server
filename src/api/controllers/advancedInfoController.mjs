@@ -127,7 +127,7 @@ export class advancedInfoController{
 
       static async updateFormations(req, res) {
         const userID = req.params['userid'];
-        const newFormations = req.body.formations;
+        const newFormations = req.body;
     
         try {
           const result = await advancedInfoService.updateFormations(userID, newFormations);
@@ -140,7 +140,7 @@ export class advancedInfoController{
     
       static async updateEducation(req, res) {
         const userID = req.params['userid'];
-        const newEducations = req.body.educations;
+        const newEducations = req.body;
     
         try {
           const result = await advancedInfoService.updateEducation(userID, newEducations);
