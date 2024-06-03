@@ -201,8 +201,9 @@ export class advancedInfoService{
           const promises = newExperiences.map(async (exp) => {
             await experience.create({
               userID: userID,
-              title: exp.title,
-              company: exp.company,
+              fieldID: exp.fieldID,
+              subfieldID: exp.subfieldID,
+              workplace_name: exp.workplace_name,
               time_spent: exp.time_spent,
             });
           });
