@@ -98,7 +98,7 @@ export class candidatureService{
         if(postInfo.languages){
             console.log("has languages!!!!")
             const gottenUserLanguages = await advancedInfoService.getLanguagesByUserID(userInfo.userID)
-            const userLanguagesIDs = gottenUserLanguages.map(userLanguage => userLanguage.dataValues.user_languagesID);
+            const userLanguagesIDs = gottenUserLanguages.map(userLanguage => userLanguage.dataValues.languageID);
             console.log(userLanguagesIDs)
             const postLanguageIDs = postInfo.languages.map(userLanguage => userLanguage.languageID);
             console.log(postLanguageIDs)
