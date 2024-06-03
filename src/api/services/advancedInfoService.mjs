@@ -230,10 +230,9 @@ export class advancedInfoService{
           const promises = newFormations.map(async (formationData) => {
             await formation.create({
               userID: userID,
-              title: formationData.title,
-              institution: formationData.institution,
-              startDate: formationData.startDate,
-              endDate: formationData.endDate,
+              nom: formationData.nom,
+              institu: formationData.institu,
+              fieldID:formationData.fieldID
             });
           });
     
@@ -257,11 +256,10 @@ export class advancedInfoService{
           const promises = newEducations.map(async (educationData) => {
             await education.create({
               userID: userID,
-              degree: educationData.degree,
-              field: educationData.field,
+              diploma_type: educationData.diploma_type,
+              level: educationData.level,
               institution: educationData.institution,
-              startDate: educationData.startDate,
-              endDate: educationData.endDate,
+              fieldID: educationData.fieldID,
             });
           });
     
