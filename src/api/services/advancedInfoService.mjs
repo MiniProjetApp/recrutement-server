@@ -197,6 +197,8 @@ export class advancedInfoService{
               userID: userID,
             },
           });
+
+          console.log(newExperiences)
     
           const promises = newExperiences.map(async (exp) => {
             await experience.create({

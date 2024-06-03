@@ -153,7 +153,7 @@ export class advancedInfoController{
     
       static async updateExperiences(req, res) {
         const userID = req.params['userid'];
-        const newExperiences = req.body.experiences;
+        const newExperiences = req.body;
     
         try {
           const result = await advancedInfoService.updateExperiences(userID, newExperiences);
