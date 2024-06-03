@@ -189,6 +189,87 @@ export class advancedInfoService{
           throw error;
         }
       }
+
+      static async updateExperiences(userID, newExperiences) {
+        try {
+          await experience.destroy({
+            where: {
+              userID: userID,
+            },
+          });
+    
+          const promises = newExperiences.map(async (exp) => {
+            await experience.create({
+              userID: userID,
+              title: exp.title,
+              company: exp.company,
+              time_spent: exp.time_spent,
+            });
+          });
+    
+          await Promise.all(promises);
+          console.log("Experiences updated successfully");
+          return true;
+        } catch (error) {
+          console.error("Error updating experiences:", error);
+          throw error;
+        }
+      }
+
+      static async updateFormations(userID, newFormations) {
+        try {
+          await formation.destroy({
+            where: {
+              userID: userID,
+            },
+          });
+    
+          const promises = newFormations.map(async (formationData) => {
+            await formation.create({
+              userID: userID,
+              title: formationData.title,
+              institution: formationData.institution,
+              startDate: formationData.startDate,
+              endDate: formationData.endDate,
+            });
+          });
+    
+          await Promise.all(promises);
+          console.log("Formations updated successfully");
+          return true;
+        } catch (error) {
+          console.error("Error updating formations:", error);
+          throw error;
+        }
+      }
+
+      static async updateEducation(userID, newEducations) {
+        try {
+          await education.destroy({
+            where: {
+              userID: userID,
+            },
+          });
+    
+          const promises = newEducations.map(async (educationData) => {
+            await education.create({
+              userID: userID,
+              degree: educationData.degree,
+              field: educationData.field,
+              institution: educationData.institution,
+              startDate: educationData.startDate,
+              endDate: educationData.endDate,
+            });
+          });
+    
+          await Promise.all(promises);
+          console.log("Education records updated successfully");
+          return true;
+        } catch (error) {
+          console.error("Error updating education records:", error);
+          throw error;
+        }
+      }
     
       static async updateAdvancedCriteria(userID, criteriaIDs) {
         try {

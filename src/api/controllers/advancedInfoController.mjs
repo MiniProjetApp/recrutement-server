@@ -124,4 +124,43 @@ export class advancedInfoController{
           res.status(500).json({ error: "Internal server error" });
         }
       }
+
+      static async updateFormations(req, res) {
+        const userID = req.params['userid'];
+        const newFormations = req.body.formations;
+    
+        try {
+          const result = await advancedInfoService.updateFormations(userID, newFormations);
+          res.status(200).json({ message: "Formations updated successfully" });
+        } catch (error) {
+          console.error("Error updating formations:", error);
+          res.status(500).json({ error: "Internal server error" });
+        }
+      }
+    
+      static async updateEducation(req, res) {
+        const userID = req.params['userid'];
+        const newEducations = req.body.educations;
+    
+        try {
+          const result = await advancedInfoService.updateEducation(userID, newEducations);
+          res.status(200).json({ message: "Education records updated successfully" });
+        } catch (error) {
+          console.error("Error updating education records:", error);
+          res.status(500).json({ error: "Internal server error" });
+        }
+      }
+    
+      static async updateExperiences(req, res) {
+        const userID = req.params['userid'];
+        const newExperiences = req.body.experiences;
+    
+        try {
+          const result = await advancedInfoService.updateExperiences(userID, newExperiences);
+          res.status(200).json({ message: "Experiences updated successfully" });
+        } catch (error) {
+          console.error("Error updating experiences:", error);
+          res.status(500).json({ error: "Internal server error" });
+        }
+      }
 }

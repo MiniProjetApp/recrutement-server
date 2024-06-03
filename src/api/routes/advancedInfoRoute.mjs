@@ -22,6 +22,18 @@ router.delete("/advancedInfo/education/delete/:educationID", advancedInfoControl
 router.post("/advancedInfo/education/create", advancedInfoController.createEducation);
 
 
+// Update formations for a user
+router.put("/advancedInfo/formation/update/:userid", advancedInfoController.updateFormations);
+
+// Update education records for a user
+router.put("/advancedInfo/education/update/:userid", advancedInfoController.updateEducation);
+
+// Update experiences for a user
+router.put("/advancedInfo/experience/update/:userid", advancedInfoController.updateExperiences);
+
+
+
+
 // // search for experience of a certain user using user ID
 router.get("/advancedInfo/experience/:userid", advancedInfoController.getAllExperiences);
 
