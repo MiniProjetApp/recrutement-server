@@ -9,7 +9,6 @@ export class SubscriptionService {
     
     static async canPost(userID) {
         try {
-            // Fetch the subscription information of the user
             const userSubscription = await Subscription.findOne({
                 where: {
                     userID: userID
@@ -21,7 +20,6 @@ export class SubscriptionService {
             });
 
             if (!userSubscription) {
-                // User has no subscription, allow one post only
                 const postCount = await Post.count({
                     where: {
                         userID: userID
@@ -37,12 +35,10 @@ export class SubscriptionService {
 
             const subscriptionInfo = userSubscription.SubscriptionInfo;
 
-            // Check if the subscription is unlimited
             if (subscriptionInfo.name.toLowerCase() === "unlimited") {
                 return { canPost: true, message: "User can post without limit" };
             }
 
-            // Check if the subscription is for 5 posts
             if (subscriptionInfo.name.toLowerCase() === "5") {
                 // Fetch the number of posts made by the user
                 const postCount = await Post.count({
@@ -51,7 +47,6 @@ export class SubscriptionService {
                     }
                 });
 
-                // Check if the user has reached the limit of 5 posts
                 if (postCount >= 5) {
                     return { canPost: false, message: "User has reached the post limit for the subscription" };
                 } else {
@@ -102,7 +97,6 @@ export class SubscriptionService {
 
     static async getSubscription(userID) {
         try {
-            // Find the subscription for the given user
             const subscription = await Subscription.findOne({
                 where: {
                     userID: userID

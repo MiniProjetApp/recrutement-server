@@ -47,14 +47,13 @@ export class PostService{
           if (languages.length===0){
             delete finalobject['languages']
           }
-          // Construct the data object for the post
           console.log("got here")
           console.log(finalobject)
           return (finalobject);
         }));
         console.log("final data:");
         console.log(postsWithData);
-        return(postsWithData) // This will log all posts along with their associated languages and criteria
+        return(postsWithData) 
       } catch (error) {
         console.error('Error fetching posts:', error);
       }
@@ -107,11 +106,9 @@ export class PostService{
           post.dataValues.picture = postMaker.logo
           console.log(post)
 
-          // Extracting criteria data
           const criterias = postCriteria.map(criteria => criteria.criteriaID);
           console.log(criterias)
           console.log(languages)
-          // Assigning extracted data to post object
           let finalobject = {...post.toJSON(),
             languages: languages,
             criterias: criterias
@@ -122,7 +119,6 @@ export class PostService{
             if (languages.length===0){
               delete finalobject['languages']
             }
-            // Construct the data object for the post
             return (finalobject);
           }
       }catch(error){
@@ -197,7 +193,6 @@ export class PostService{
             if (languages.length===0){
               delete finalobject['languages']
             }
-            // Construct the data object for the post
             return (finalobject);
           }));
       
@@ -209,7 +204,6 @@ export class PostService{
       }
       static async deletePostByID(postID) {
         try {
-            // Find the post by ID
             const post = await Post.findByPk(postID);
 
             if (!post) {
@@ -218,21 +212,18 @@ export class PostService{
                 throw notFoundError;
             }
 
-            // Delete associated post languages
             await PostLanguages.destroy({
                 where: {
                     postID: postID
                 }
             });
 
-            // Delete associated advanced criterias
             await AdvancedCriteria.destroy({
                 where: {
                     postID: postID
                 }
             });
 
-            // Finally, delete the post itself
             await post.destroy();
 
             return { message: "Post deleted successfully" };

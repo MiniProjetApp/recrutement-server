@@ -172,7 +172,6 @@ export class advancedInfoService{
             },
           });
     
-          // Add updated languages
           const promises = languages.map(async (language) => {
             await UserLanguages.create({
               userID: userID,
@@ -276,7 +275,6 @@ export class advancedInfoService{
         try {
         console.log(userID)
 
-          // Remove old advanced criteria associated with the user
           await UserAdvancedCriterias.destroy({
             where: {
               userID: userID,
@@ -321,7 +319,6 @@ export class advancedInfoService{
     
       static async addAdvancedCriteria(postID, criteriaIDs) {
         try {
-          // Add updated advanced criteria
           const promises = criteriaIDs.map(async (criteriaID) => {
             await AdvancedCriteria.create({
               postID: postID,

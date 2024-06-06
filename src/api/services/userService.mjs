@@ -189,12 +189,10 @@ export class userService {
 
   static async deleteUser(userID) {
     try {
-      // Delete the user with the given userID
       await userModel.destroy({
         where: { id: userID }
       });
   
-      // Return success message or handle the response as required
       return { message: "User deleted successfully" };
     } catch (error) {
       console.error("Error deleting user:", error);

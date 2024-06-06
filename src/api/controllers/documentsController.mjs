@@ -55,8 +55,6 @@ export class DocumentsController{
         }
         try {
           const __filename = fileURLToPath(import.meta.url)
-          // const projectDir = path.dirname(__filename)
-          // console.log(projectDir);
           const documents = await  documentModel.findAll({
             where: { userID: userID },
             attributes: ['resource_link']
